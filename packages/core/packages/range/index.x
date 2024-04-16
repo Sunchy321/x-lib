@@ -1,6 +1,6 @@
-import this.iterator : RangeIterator, ClosedRangeIterator;
+import this.iterator;
 
-enum Error { InvalidBounds }
+partial enum Error { InvalidBounds }
 
 class Range<T> {
     let start: T;
