@@ -2,7 +2,7 @@ import this.iterator;
 
 partial enum Error { InvalidBounds }
 
-class Range<T> {
+class Range<T: Numeric> {
     let start: T;
     let end: T;
 
@@ -16,7 +16,7 @@ class Range<T> {
     }
 }
 
-class ClosedRange<T> {
+class ClosedRange<T: Numeric> {
     let start: T;
     let end: T;
 

@@ -42,6 +42,6 @@ impl<T, U> T{U} : Default {
     static let default => {||};
 }
 
-impl<T...> (T...) : Default if (T is Default && ...) {
+impl<T...> (T...) : Default if (T is Default & ...) {
     static let default => (T.default...);
 }

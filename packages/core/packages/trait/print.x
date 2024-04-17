@@ -3,13 +3,9 @@ trait Printable {
 }
 
 impl string : Printable {
-    func print() { this }
+    func print() => this;
 }
 
-impl bool : Printable {
-    func print() { if this then "true" else "false" }
-}
-
-impl int : Printable {
-    func print() { __intrinsic }
+impl void : Printable {
+    func print() => "()";
 }

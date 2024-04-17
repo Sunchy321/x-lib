@@ -1,0 +1,1 @@
+type Symbol = __intrinsic;
