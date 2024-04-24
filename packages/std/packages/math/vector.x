@@ -1,7 +1,7 @@
 import std.seq;
 
-partial enum core.Error {
-    VectorSizeMismatch
+enum Error {
+    SizeMismatch
 }
 
 class<T is Numeric, dyn N: uint> Vector {
@@ -9,7 +9,7 @@ class<T is Numeric, dyn N: uint> Vector {
 
     init(array: T[]) -> self<T, dyn array.size> {
         if array.size != N {
-            throw .VectorSizeMismatch;
+            throw .SizeMismatch;
         }
 
         self.array = array;

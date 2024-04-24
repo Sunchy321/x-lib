@@ -1,27 +1,73 @@
-impl<T, N> Array<T, N> : Sequence<T, N> {
-    type Iterator = ArrayIterator<T>;
+impl<T, dyn N> Sequence {
+    func map(f: T -> U) -> self<U, dyn N> {
+        let result = self<U>()
 
-    func iterator() => ArrayIterator(this);
-}
-
-class ArrayIterator<T> {
-    let index: uint;
-    let array: T[]&;
-
-    init(array: T[]&) {
-        this.array = array;
-        this.index = 0;
-    }
-}
-
-impl<T> ArrayIterator : Iterator {
-    func next(this: mut) -> T? {
-        if this.index < this.array.size {
-            let value = this.array[this.index];
-            this.index++;
-            value
-        } else {
-            nil
+        for let v : this {
+            result <~ f(v)
         }
+
+        result as self<U, dyn N>
+    }
+
+    func forEach(f: T -> void) -> void {
+        for let v : this {
+            f(v)
+        }
+    }
+
+    func allOf(p: T -> bool) -> bool {
+        for let v : this {
+            if !p(v) {
+                return false;
+            }
+        }
+
+        true
+    }
+
+    func anyOf(p: T -> bool) -> bool {
+        for let v : this {
+            if p(v) {
+                return true;
+            }
+        }
+
+        false
+    }
+
+    func noneOf(p: T -> bool) => this.allOf { !p($0) };
+
+    func filter(p: T -> bool) -> self<T, dyn _> {
+        let result = self<T, dyn _>()
+
+        for let v : this {
+            if p(v) {
+                result <~ v;
+            }
+        }
+
+        result
+    }
+
+    func find(p: T -> bool) -> T? {
+        for let v : this {
+            if p(v) {
+                return v;
+            }
+        }
+
+        nil
+    }
+
+    func findIndex(p: T -> bool) -> uint? {
+        let mut i = 0;
+        for let v : this {
+            if p(v) {
+                return i;
+            }
+            i++;
+        }
+
+        nil
     }
 }

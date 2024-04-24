@@ -1,0 +1,1 @@
+__intrinsic func panic() -> never;
