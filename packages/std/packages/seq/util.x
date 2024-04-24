@@ -1,0 +1,1 @@
+func<T..., dyn N: uint> zip(T[dyn N]... values) => (1..N).map { (values[$0]...) }

@@ -1,16 +1,16 @@
-type<T: Numeric & !Complex<_>> Complex {
+type<T if (T is Numeric) & (T !is Complex<_>)> Complex {
     let real: T;
     let imag: T;
 }
 
 func operator""i<T>(imag: T) -> Complex<T> { Complex { real: T{}, imag } }
 
-impl<T: Numeric> Complex<T> {
+impl<T is Numeric> Complex<T> {
     let conjugate => Complex { real: this.real, imag: -this.imag };
     let normSquare => this.real * this.real + this.imag * this.imag;
 }
 
-impl<T: Numeric> Complex<T> : Numeric {
+impl<T is Numeric> Complex<T> : Numeric {
     static func operator+(lhs: self, rhs: self) => self { real: lhs.real + rhs.real, imag: lhs.imag + rhs.imag }
     static func operator-(lhs: self, rhs: self) => self { real: lhs.real - rhs.real, imag: lhs.imag - rhs.imag }
 

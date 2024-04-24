@@ -1,4 +1,4 @@
-impl<T> T[] : Sequence<T> {
+impl<T, N> Array<T, N> : Sequence<T, N> {
     type Iterator = ArrayIterator<T>;
 
     func iterator() => ArrayIterator(this);

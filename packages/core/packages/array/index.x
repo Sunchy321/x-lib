@@ -1,0 +1,1 @@
+type<T, dyn N: uint> Array = __intrinsic;
