@@ -1,1 +1,1 @@
-__intrinsic func panic() -> never;
+__intrinsic func panic(message = "") -> never;
