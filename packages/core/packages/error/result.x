@@ -8,4 +8,11 @@ impl<T, E> Result<T, E> {
         .OK(let value) => value,
         .Error(let error) => throw error
     }
+
+    func operator suffix?() -> T? {
+        match this {
+            .OK(let value) => value,
+            .Error(_) => nil
+        }
+    }
 }
