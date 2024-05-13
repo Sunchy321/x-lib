@@ -1,8 +1,8 @@
-trait<T, dyn N> Sequence {
+trait<T> Sequence {
     type Value = T;
     type Iterator : core.Iterator<T>;
 
-    type<U, dyn M> self;
+    type<U> self;
 
     let isEmpty: bool;
 

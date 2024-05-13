@@ -15,4 +15,11 @@ impl<T, E> Result<T, E> {
             .Error(_) => nil
         }
     }
+
+    func expect(message: string) -> T {
+        match this {
+            .OK(let value) => value,
+            .Error(let error) => panic("\(message): \(error)")
+        }
+    }
 }

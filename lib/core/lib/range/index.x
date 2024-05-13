@@ -4,11 +4,11 @@ enum Error {
     InvalidBounds
 }
 
-class Range<T is Numeric, dyn S: T, dyn E: T> {
+class Range<T is Numeric> {
     let start: T;
     let end: T;
 
-    init<T>(start: T, end: T) -> self<T, dyn start, dyn end> {
+    init<T>(start: T, end: T) -> self<T> {
         if start > end {
             throw .InvalidBounds;
         }
@@ -20,11 +20,11 @@ class Range<T is Numeric, dyn S: T, dyn E: T> {
     func operator in(value: T) => this.start <= value < this.end;
 }
 
-class ClosedRange<T is Numeric, dyn S: T, dyn E: T> {
+class ClosedRange<T is Numeric> {
     let start: T;
     let end: T;
 
-    init<T>(start: T, end: T) -> self<T, dyn start, dyn end> {
+    init<T>(start: T, end: T) -> self<T> {
         if start > end {
             throw .InvalidBounds;
         }
@@ -36,14 +36,14 @@ class ClosedRange<T is Numeric, dyn S: T, dyn E: T> {
     func operator in(value: T) => this.start <= value <= this.end;
 }
 
-impl<T, dyn S, dyn E> Range<T, dyn S, dyn E> : Sequence<T, dyn E - S> {
+impl<T> Range<T> : Sequence<T> {
     type Iterator = RangeIterator<T>;
 
     let iterator => RangeIterator(this.start, this.end);
     let size => this.end - this.start;
 }
 
-impl<T, dyn S, dyn E> ClosedRange<T, dyn S, dyn E> : Sequence<T, dyn (E - S)+!> {
+impl<T> ClosedRange<T> : Sequence<T> {
     type Iterator = ClosedRangeIterator<T>;
 
     let iterator => ClosedRangeIterator(this.start, this.end);

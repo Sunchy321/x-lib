@@ -4,10 +4,10 @@ enum Error {
     SizeMismatch
 }
 
-class<T is Numeric, dyn N: uint> Vector {
+class<T is Numeric> Vector {
     let array: T[];
 
-    init(array: T[]) -> self<T, dyn array.size> {
+    init(array: T[]) -> self<T> {
         if array.size != N {
             throw .SizeMismatch;
         }

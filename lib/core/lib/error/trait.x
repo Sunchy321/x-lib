@@ -1,9 +1,9 @@
-trait Error {
+trait ErrorCode {
 
 }
 
 enum CoreError {
-    impl Error;
-
     ArithmeticOverflow,
 }
+
+impl CoreError : ErrorCode;

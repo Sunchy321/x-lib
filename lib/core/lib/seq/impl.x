@@ -1,12 +1,12 @@
-impl<T, dyn N> Sequence {
-    func map(f: T -> U) -> self<U, dyn N> {
+impl<T> Sequence {
+    func map(f: T -> U) -> self<U> {
         let result = self<U>()
 
         for let v : this {
             result <~ f(v)
         }
 
-        result as self<U, dyn N>
+        result as self<U>
     }
 
     func forEach(f: T -> void) -> void {
@@ -37,8 +37,8 @@ impl<T, dyn N> Sequence {
 
     func noneOf(p: T -> bool) => this.allOf { !p($0) };
 
-    func filter(p: T -> bool) -> self<T, dyn _> {
-        let result = self<T, dyn _>()
+    func filter(p: T -> bool) -> self<T> {
+        let result = self<T>()
 
         for let v : this {
             if p(v) {

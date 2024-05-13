@@ -1,7 +1,7 @@
-impl<T, dyn N> T[dyn N] : Sequence<T, dyn N> {
+impl<T> T[] : Sequence<T> {
     type Iterator = ArrayIterator<T>;
 
-    type<U, dyn M> self = U[dyn M];
+    type<U> self = U[];
 
     let isEmpty => this.size == 0;
 
@@ -30,8 +30,8 @@ impl<T> ArrayIterator : Iterator {
     }
 }
 
-impl<T, dyn N> T{dyn N} {
-    func init<T>(repeating v: T, count n: uint) -> T[dyn n] {
+impl<T> T[] {
+    func init<T>(repeating v: T, count n: usize) -> T[] {
         let mut array = [];
 
         for let i : 1 .. n {
@@ -41,7 +41,7 @@ impl<T, dyn N> T{dyn N} {
         this = array;
     }
 
-    func entries() -> (uint, T)[dyn N] {
+    func entries() -> (uint, T)[] {
         this.map { ($index, $0) }
     }
 }
