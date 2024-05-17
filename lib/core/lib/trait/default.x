@@ -1,5 +1,5 @@
 trait Default {
-    static let default: self;
+    static let default: self { get };
 }
 
 impl void : Default {
@@ -22,6 +22,10 @@ impl<W> float<W> : Default {
     static let default => 0.0;
 }
 
+impl char : Default {
+    static let default => '\0';
+}
+
 impl string : Default {
     static let default => "";
 }
@@ -38,7 +42,7 @@ impl<T> T[] : Default {
     static let default => [];
 }
 
-impl<T, U> T{U} : Default {
+impl<T, U> T[U] : Default {
     static let default => {||};
 }
 

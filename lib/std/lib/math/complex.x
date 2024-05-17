@@ -3,7 +3,8 @@ type<T if (T is Numeric) & (T !is Complex<_>)> Complex {
     let imag: T;
 }
 
-func operator""i<T>(imag: T) -> Complex<T> { Complex { real: T{}, imag } }
+func operator""i<T: Numeric>(imag: T) -> Complex<T> { Complex { real: T{}, imag } }
+func operator""j<T: Numeric>(imag: T) -> Complex<T> { Complex { real: T{}, imag } }
 
 impl<T is Numeric> Complex<T> {
     let conjugate => Complex { real: this.real, imag: -this.imag };
