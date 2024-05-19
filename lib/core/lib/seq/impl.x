@@ -6,7 +6,7 @@ impl<T> Sequence {
             result <~ f(v)
         }
 
-        result as self<U>
+        result
     }
 
     func forEach(f: T -> void) -> void {
@@ -37,8 +37,8 @@ impl<T> Sequence {
 
     func noneOf(p: T -> bool) => this.allOf { !p($0) };
 
-    func filter(p: T -> bool) -> self<T> {
-        let result = self<T>()
+    func filter(p: T -> bool) -> self {
+        let result = self()
 
         for let v : this {
             if p(v) {
@@ -59,7 +59,7 @@ impl<T> Sequence {
         nil
     }
 
-    func findIndex(p: T -> bool) -> uint? {
+    func findIndex(p: T -> bool) -> usize? {
         let mut i = 0;
         for let v : this {
             if p(v) {
