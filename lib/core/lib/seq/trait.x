@@ -7,11 +7,5 @@ trait<T> Sequence {
     let isEmpty: bool;
 
     func iter() -> Iterator;
-    func size() => N;
-}
-
-trait<T> Iterator {
-    type Value = T;
-
-    func next(this: mut) -> T?;
+    func size() -> usize;
 }
