@@ -1,3 +1,9 @@
+trait Iterable {
+    type Iter: core::Iterator;
+
+    let iter: Iter;
+}
+
 trait Iterator {
     type Item;
 
