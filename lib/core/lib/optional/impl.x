@@ -18,10 +18,9 @@ impl<T> T? {
     func orElse(f: () -> T?) => this ?? f();
 
     func xor(other: T?) => match (this, other) {
-        (nil, nil) => nil,
-        (let a, nil) => a,
-        (nil, let b) => b,
-        (let a, let b) => nil,
+        (some let a, nil) -> some a,
+        (nil, some let b) -> some b,
+        _ -> nil,
     };
 
     func someOr<E>(err: E) throw => this ?? throw err;
@@ -29,40 +28,33 @@ impl<T> T? {
 
     func filter(p: T -> bool) => pred(this?) ?? false;
 
-    func take(this: mut) => T? {
-        if this != nil {
-            let old = this;
-            this = nil;
-            old
-        } else {
-            nil
-        }
+    func take(this: mut) => match this {
+        some let v -> { this = nil; some v },
+        nil -> nil,
     }
 
     func zip<U>(other: U?) => match (this, other) {
-        (nil, _) => nil,
-        (_, nil) => nil,
-        (let a, let b) => (a, b),
+        let (some a, some b) -> some (a, b),
+        _ -> nil
     };
 
     func zipWith<U, R>(other: U?, f: (T, U) -> R) => match (this, other) {
-        (nil, _) => nil,
-        (_, nil) => nil,
-        (let a, let b) => f(a, b),
+        (let a, let b) -> some f(a, b),
+        _ -> nil,
     };
 }
 
 impl<T, U> (T, U)? {
     func unzip() => match this {
-        nil => (nil, nil),
-        (let a, let b) => (a, b),
+        some let (a, b) -> (some a, some b),
+        _ -> (nil, nil),
     };
 }
 
 impl<T, E> (T throw E)? {
     func transpose() throw => match this {
-        nil => nil,
-        let v => try v,
+        some let v -> try v,
+        nil -> nil,
     };
 }
 

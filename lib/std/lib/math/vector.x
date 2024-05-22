@@ -1,10 +1,10 @@
 import std.seq;
 
-enum Error {
+enum VectorError: ErrorCode {
     SizeMismatch
 }
 
-class<T is Numeric> Vector {
+class<T is Numeric, N: usize> Vector {
     let array: T[];
 
     init(array: T[]) -> self<T> {
@@ -18,13 +18,19 @@ class<T is Numeric> Vector {
     func operator$() => N;
 }
 
-impl<T, N> Vector : Sequence<T> {
-    type Iterator : core.ArrayIterator<T>;
+impl<T, N> Vector<T, N> : Iterable {
+    type Iter : typeof(this.array)::Iter;
 
-    func iterator() => this.array.iterator();
+    let iter => this.array.iter();
 }
 
-impl<T, N> Vector : Numeric {
+impl<T, N> Vector<T, N> : Numeric {
     static func operator+(lhs: self, rhs: self) => self(zip(lhs.array, rhs.array).map { $0.0 + $0.1 });
     static func operator-(lhs: self, rhs: self) => self(zip(lhs.array, rhs.array).map { $0.0 - $0.1 });
+
+    static func operator*(lhs: self, rhs: self) => self(zip(lhs.array, rhs.array).map { $0.0 * $0.1 });
+    static func operator*(lhs: self, rhs: T) => self(lhs.array.map { $0 * rhs });
+    static func operator*(lhs: T, rhs: self) => self(rhs.array.map { lhs * $0 });
+
+    static func operator/(lhs: self, rhs: self) => self(zip(lhs.array, rhs.array).map { $0.0 / $0.1 });
 }
