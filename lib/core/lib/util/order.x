@@ -5,7 +5,7 @@ enum Order {
 }
 
 impl Order {
-    let reverse => match this {
+    let reverse: self => match this {
         .less -> .greater;
         .equal -> .equal;
         .greater -> .less;

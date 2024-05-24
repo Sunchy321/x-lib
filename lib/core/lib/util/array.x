@@ -13,7 +13,7 @@ class ArrayIterator<T> {
     let array: T[]&;
 
     init(ref array: T[]) {
-        this.array = array;
+        this.array = &array;
         this.index = 0;
     }
 }
