@@ -32,7 +32,7 @@ trait Iterator {
         StepBy(self, step)
     }
 
-    func fold<R>(this: mut, initial: R, accumulator: some (R, Item) -> R,) -> R {
+    func fold<R>(this: mut, initial: R, accumulator: (R, Item) -> R) -> R {
         let mut acc = initial;
 
         while let v = self.next(); v != nil {
