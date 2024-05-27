@@ -1,25 +1,27 @@
-impl<T> T[] : Sequence<T> {
-    type Iterator = ArrayIterator<T>;
+impl<T> T[] : Sequence {
+    type Item = T;
 
-    type<U> self = U[];
+    type Iterator = ArrayIterator<T>;
 
     let isEmpty => this.size == 0;
 
-    func iterator() => ArrayIterator(this);
+    func iterator() => ArrayIterator(&this);
 }
 
 class ArrayIterator<T> {
-    let index: uint;
+    let index: usize;
     let array: T[]&;
 
-    init(ref array: T[]) {
+    init<T>(array: T[]&) -> self<T> {
         this.array = &array;
         this.index = 0;
     }
 }
 
-impl<T> ArrayIterator : Iterator {
-    func next(this: mut) -> T? {
+impl<T> ArrayIterator<T> : Iterator {
+    type Item = T;
+
+    func next(this: mut) {
         if this.index < this.array.size {
             let value = this.array[this.index];
             this.index++;
@@ -41,7 +43,7 @@ impl<T> T[] {
         this = array;
     }
 
-    func entries() -> (uint, T)[] {
+    func entries() -> (usize, T)[] {
         this.map { ($index, $0) }
     }
 }

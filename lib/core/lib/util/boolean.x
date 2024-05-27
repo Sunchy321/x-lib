@@ -24,15 +24,15 @@ impl bool? : Boolean {
     func operator prefix!() => !self?;
 
     static func operator&(lazy lhs: self, lazy rhs: self) => match lhs {
-        true -> true,
-        nil -> match rhs { true -> true, _ -> nil },
-        false -> rhs,
+        some true -> some true,
+        nil -> match rhs { some true -> some true, _ -> nil },
+        some false -> rhs,
     }
 
     static func operator|(lazy lhs: self, lazy rhs: self) => match lhs {
-        true -> rhs,
-        nil -> match rhs { false -> false, _ -> nil },
-        false -> false,
+        some true -> rhs,
+        nil -> match rhs { some false -> some false, _ -> nil },
+        some false -> some false,
     }
 
     func operator if() => self ?? false;

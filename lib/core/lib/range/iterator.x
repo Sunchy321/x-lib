@@ -1,44 +1,51 @@
 class RangeIterator<T> {
-    let mut curr: T;
-    let end: T;
-
-    init(start: T, end: T) {
-        this.curr = start;
-        this.end = end;
-    }
+    mut curr: T;
+    end: T;
 }
 
-class ClosedRangeIterator<T> {
-    let mut curr: T;
-    let end: T;
-    let exhausted = false;
-
-    init(start: T, end: T) {
-        this.curr = start;
-        this.end = end;
-    }
+impl<T> RangeIterator<T> {
+    init(start: T, end: T) => self { curr: start, end };
 }
 
-impl RangeIterator<T> : Iterator<T> {
-    func next(this: mut) -> T? {
+impl RangeIterator<T> : Iterator {
+    type Item = T;
+
+    func next(this: mut) -> self::Item? {
         if this.curr >= this.end {
             nil
         } else {
             let curr = this.curr;
             this.curr++;
-            curr
+            some curr
         }
     }
 }
 
-impl ClosedRangeIterator<T> : Iterator<T> {
-    func next(this: mut) -> T? {
+class ClosedRangeIterator<T> {
+    mut curr: T;
+    end: T;
+    mut exhausted: bool;
+}
+
+impl<T> ClosedRangeIterator<T> {
+    init(start: T, end: T) => self { curr: start, end, exhausted: false };
+}
+
+impl ClosedRangeIterator<T> : Iterator {
+    type Item = T;
+
+    func next(this: mut) -> self::Item? {
         if this.curr >= this.end {
-            if this.exhausted then nil else { this.exhausted = true; this.end }
+            if this.exhausted {
+                nil
+            } else {
+                this.exhausted = true;
+                some this.end
+            }
         } else {
             let curr = this.curr;
             this.curr++;
-            curr
+            some curr
         }
     }
 }

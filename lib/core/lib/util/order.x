@@ -17,7 +17,9 @@ trait PartialOrdered {
 }
 
 trait Ordered : PartialOrdered {
-    static func operator cmp(lhs: this, rhs: this) -> Order;
+    static func operator cmp(lhs: this, rhs: this) -> Order {
+        PartialOrdered::operator cmp(lhs, rhs)!
+    }
 }
 
 func<T is Ordered> min(lhs: T, rhs: T) { if lhs < rhs then lhs else rhs }
