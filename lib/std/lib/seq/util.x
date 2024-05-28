@@ -11,5 +11,5 @@ func<T...> zip(T[]... values) {
         }
     }
 
-    (1..size).map { (values[$0]... ) }
+    (1..size).map { (...values[$0]) }
 }

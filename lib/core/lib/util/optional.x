@@ -2,7 +2,7 @@ impl<T> T? {
     let isSome => this != nil;
     let isNil => this == nil;
 
-    func asRef() => &this?;
+    func asRef(&this) => &this?;
 
     func map<U>(f: T -> U) => f(this?);
     func map<U>(f: T -> U, or or: U) => f(this ?? or);
@@ -39,7 +39,7 @@ impl<T> T? {
     };
 
     func zipWith<U, R>(other: U?, f: (T, U) -> R) => match (this, other) {
-        (let a, let b) -> some f(a, b),
+        let (some a, some b) -> some f(a, b),
         _ -> nil,
     };
 }

@@ -43,11 +43,11 @@ impl<T> T[] : Default {
 }
 
 impl<T, U> T[U] : Default {
-    static let default = {||};
+    static let default = [:];
 }
 
-impl<T...> (T...) : Default if (T is Default & ...) {
-    static let default = (T::default...);
+impl<T...> (...T) : Default if (T is Default & ...) {
+    static let default = (...T::default);
 }
 
 impl<T, E> T throw E : Default if T is Default {
