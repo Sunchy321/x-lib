@@ -1,10 +1,14 @@
 type usize = __intrinsic;
 type isize = __intrinsic;
 
-func operator ""usize(value: int) -> usize {
-    value as! usize
+impl usize : IntegerSuffix<'usize> {
+    func fromLiteral(literal: IntegerLiteral) -> self {
+        __intrinsic
+    }
 }
 
-func operator ""isize(value: int) -> isize {
-    value as! isize
+impl isize : IntegerSuffix<'isize> {
+    func fromLiteral(literal: IntegerLiteral) -> self {
+        __intrinsic
+    }
 }

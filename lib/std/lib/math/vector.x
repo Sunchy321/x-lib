@@ -14,8 +14,10 @@ class<T is Numeric, N: usize> Vector {
 
         self.array = array;
     }
+}
 
-    func operator$() => N;
+impl<T, N> Vector<T, N> : Dollar {
+    func dollar() => N;
 }
 
 impl<T, N> Vector<T, N> : Iterable {
@@ -24,13 +26,32 @@ impl<T, N> Vector<T, N> : Iterable {
     let iter => this.array.iter();
 }
 
-impl<T, N> Vector<T, N> : Numeric {
-    static func operator+(lhs: self, rhs: self) => self(zip(lhs.array, rhs.array).map { $0.0 + $0.1 });
-    static func operator-(lhs: self, rhs: self) => self(zip(lhs.array, rhs.array).map { $0.0 - $0.1 });
+impl<T, N> Vector<T, N> : Add {
+    type Output = self;
+    func add(this, rhs: self) => zip(this.array.intoIter(), rhs.array.intoIter()).map { $0.0 + $0.1 }.collect();
+}
 
-    static func operator*(lhs: self, rhs: self) => self(zip(lhs.array, rhs.array).map { $0.0 * $0.1 });
-    static func operator*(lhs: self, rhs: T) => self(lhs.array.map { $0 * rhs });
-    static func operator*(lhs: T, rhs: self) => self(rhs.array.map { lhs * $0 });
+impl<T, N> Vector<T, N> : Subtract {
+    type Output = self;
+    func substract(this, rhs: self) => zip(this.array.intoIter(), rhs.array.intoIter()).map { $0.0 - $0.1 }.collect();
+}
 
-    static func operator/(lhs: self, rhs: self) => self(zip(lhs.array, rhs.array).map { $0.0 / $0.1 });
+impl<T, N> Vector<T, N> : Multiply {
+    type Output = self;
+    func multiply(this, rhs: self) => zip(this.array.intoIter(), rhs.array.intoIter()).map { $0.0 * $0.1 }.collect();
+}
+
+impl<T, N> Vector<T, N> : Multiply<T> {
+    type Output = self;
+    func multiply(this, rhs: T) => this.array.map { $0 * rhs };
+}
+
+impl<T, N> T : Multiply<Vector<T, N>> {
+    type Output = Vector<T, N>;
+    func multiply(this, rhs: Vector<T, N>) => rhs.array.map { this * $0 };
+}
+
+impl<T, N> Vector<T, N> : Divide {
+    type Output = self;
+    func divide(this, rhs: self) => zip(this.array.intoIter(), rhs.array.intoIter()).map { $0.0 / $0.1 }.collect();
 }

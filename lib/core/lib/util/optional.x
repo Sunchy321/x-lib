@@ -62,6 +62,23 @@ impl<T> T?? {
     func flatten() => this??;
 }
 
+impl<T> T? : Failable {
+    type Return = T;
+    type Throw = never;
+    type Output = self;
+
+    func chain() -> T? {
+        self
+    }
+
+    func unwrap() -> ControlFlow<T, never> {
+        match this {
+            some let v -> ControlFlow::Continue(v),
+            nil -> panic!("called `unwrap` on a `nil` value"),
+        }
+    }
+}
+
 impl<T> T? : Iterable {
     type Iter = Iter<T>;
 

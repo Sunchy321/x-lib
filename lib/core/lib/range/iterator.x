@@ -10,7 +10,7 @@ impl<T> RangeIterator<T> {
 impl RangeIterator<T> : Iterator {
     type Item = T;
 
-    func next(this: mut) -> self::Item? {
+    func next(this: mut) -> Item? {
         if this.curr >= this.end {
             nil
         } else {
@@ -34,7 +34,7 @@ impl<T> ClosedRangeIterator<T> {
 impl ClosedRangeIterator<T> : Iterator {
     type Item = T;
 
-    func next(this: mut) -> self::Item? {
+    func next(this: mut) -> Item? {
         if this.curr >= this.end {
             if this.exhausted {
                 nil

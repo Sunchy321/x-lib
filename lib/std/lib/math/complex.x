@@ -3,27 +3,62 @@ type<T if (T is Numeric) & (T !is Complex<_>)> Complex {
     let imag: T;
 }
 
-func operator""i<T: Numeric>(imag: T) -> Complex<T> { Complex { real: T::default, imag } }
-func operator""j<T: Numeric>(imag: T) -> Complex<T> { Complex { real: T::default, imag } }
+impl Complex<float> : FloatingSuffix<'i> {
+    func fromLiteral(literal: FloatingLiteral) -> self {
+        self { real: float::default, imag: literal.floatValue }
+    }
+}
 
-impl<T is Numeric> Complex<T> {
+impl Complex<float> : FloatingSuffix<'j> {
+    func fromLiteral(literal: FloatingLiteral) -> self {
+        self { real: float::default, imag: literal.floatValue }
+    }
+}
+
+impl<T> Complex<T> {
     let conjugate => Complex { real: this.real, imag: -this.imag };
     let normSquare => this.real * this.real + this.imag * this.imag;
 }
 
-impl<T is Numeric> Complex<T> : Default {
+impl<T> Complex<T> : Default {
     static let default = Complex { real: T::default, imag: T::default };
 }
 
-impl<T is Numeric> Complex<T> : Numeric {
-    static func operator+(lhs: self, rhs: self) => self { real: lhs.real + rhs.real, imag: lhs.imag + rhs.imag }
-    static func operator-(lhs: self, rhs: self) => self { real: lhs.real - rhs.real, imag: lhs.imag - rhs.imag }
 
-    static func operator*(lhs: self, rhs: self) => self {
-        real: lhs.real * rhs.real - lhs.imag * rhs.imag,
-        imag: lhs.real * rhs.imag + lhs.imag * rhs.real
+impl<T> Complex<T> : Add {
+    type Output = self;
+    func add(this, rhs: self) -> self {
+        Complex { real: this.real + rhs.real, imag: this.imag + rhs.imag }
     }
 }
 
-func<T> operator*(lhs: Complex<T>, rhs: T) => Complex<T> { real: lhs.real * rhs, imag: lhs.imag * rhs }
-func<T> operator*(lhs: T, rhs: Complex<T>) => Complex<T> { real: lhs * rhs.real, imag: lhs * rhs.imag }
+impl<T> Complex<T> : Subtract {
+    type Output = self;
+    func subtract(this, rhs: self) -> self {
+        Complex { real: this.real - rhs.real, imag: this.imag - rhs.imag }
+    }
+}
+
+impl<T> Complex<T> : Multiply {
+    type Output = self;
+    func multiply(this, rhs: self) -> self {
+        Complex {
+            real: this.real * rhs.real - this.imag * rhs.imag,
+            imag: this.real * rhs.imag + this.imag * rhs.real
+        }
+    }
+}
+
+impl<T> Complex<T> : Multiply<T> {
+    type Output = self;
+    func multiply(this, rhs: T) -> self {
+        Complex { real: this.real * rhs, imag: this.imag * rhs }
+    }
+}
+
+impl<T> T : Multiply<Complex<T>> {
+    type Output = Complex<T>;
+    func multiply(this, rhs: Complex<T>) -> Complex<T> {
+        Complex { real: this * rhs.real, imag: this * rhs.imag }
+    }
+}

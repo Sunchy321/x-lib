@@ -1,39 +1,49 @@
 trait Index<F is Function> {
     type Output = F::Return;
 
-    func index(&this, #expandParameter(F::Parameter)) -> self::Output&;
+    func index(&this, #expandParameter(F::Parameter)) -> Output&;
 }
 
 trait IndexMut<F is Function> {
     type Output = F::Return;
 
-    func index_mut(&mut this, #expandParameter(F::Parameter)) -> self::Output mut&;
+    func indexMut(&mut this, #expandParameter(F::Parameter)) -> Output mut&;
 }
 
-trait Nullable {
-    type Item;
-    type Output : Nullable if Item is Output::Item;
+enum ControlFlow<T, E> {
+    Return(T),
+    Throw(E),
+}
 
-    func null_chain(this) -> self::Output;
-    func null_assert(this) -> self::Item;
+trait Failable {
+    type Return;
+    type Throw;
+    type Output : Failable if Output::Return == Return && Output::Throw is Into<Throw>;
+
+    func chain(this) -> Output;
+
+    func unwrap(this) -> ControlFlow<Return, Throw> {
+        match this.chain().unwrap() {
+            .Return(let value) => .Return(value),
+            .Throw(let error) => .Throw(error.into()),
+        }
+    }
 }
 
 trait Predecessor {
     type Output;
-
-    func predecessor(this) -> self::Output;
+    func prev(this) -> Output;
 }
 
 trait Successor {
     type Output;
-
-    func successor(this) -> self::Output;
+    func next(this) -> Output;
 }
 
 trait Increment {
-    func increment(&mut this);
+    func inc(&mut this);
 }
 
 trait Decrement {
-    func decrement(&mut this);
+    func dec(&mut this);
 }

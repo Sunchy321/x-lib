@@ -40,6 +40,16 @@ impl<T, E> (T throw E) throw E {
     func flatten() throw => this!!;
 }
 
+impl<T, E> T throw E : Failable {
+    type Return = T;
+    type Throw = E;
+    type Output = T?;
+
+    func chain(this) => try this catch let e { nil } else let v { some v };
+
+    func unwrap() => try this catch let e { .Throw(e) } else let v { .Return(v) };
+}
+
 impl<T, E> T throw E : Iterable {
     type Iter = Iter<T, E>;
 

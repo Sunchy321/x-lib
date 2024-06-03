@@ -1,10 +1,8 @@
-trait Boolean {
-    func operator prefix!(this) -> bool;
-    func operator&(lhs: self, lazy rhs: self) -> bool;
-    func operator|(lhs: self, lazy rhs: self) -> bool;
-
-    func operator if(this) -> bool;
+trait Condition {
+    func cond(this) -> bool;
 }
+
+trait Boolean : Not + LogicAnd + LogicOr + Condition { }
 
 impl Boolean {
     func toggle(&mut this) {
@@ -12,28 +10,46 @@ impl Boolean {
     }
 }
 
-impl bool : Boolean {
-    func operator prefix!(this) => __intrinsic;
-    func operator&(lhs: self, lazy rhs: self) => __intrinsic;
-    func operator|(lhs: self, lazy rhs: self) => __intrinsic;
-
-    func operator if(this) => this;
+impl bool : Condition {
+    func cond(this) => this;
 }
 
-impl bool? : Boolean {
-    func operator prefix!(this) => !self?;
+impl bool : Boolean { }
 
-    func operator&(lhs: self, lazy rhs: self) => match lhs {
-        some true -> some true,
-        nil -> match rhs { some true -> some true, _ -> nil },
-        some false -> rhs,
-    }
+impl bool! : Not {
+    type Output = self;
 
-    func operator|(lhs: self, lazy rhs: self) => match lhs {
+    func not(this) => !this?;
+}
+
+impl bool? : LogicAnd {
+    type Output = self;
+
+    func logicAnd(this, lazy rhs: self) => match this {
         some true -> rhs,
-        nil -> match rhs { some false -> some false, _ -> nil },
-        some false -> some false,
-    }
-
-    func operator if(this) => self ?? false;
+        nil -> match rhs {
+            some false -> some false,
+            _ -> nil
+        }
+        some false -> some false
+    };
 }
+
+impl bool? : LogicOr {
+    type Output = self;
+
+    func logicOr(this, lazy rhs: self) => match this {
+        some true -> some true,
+        nil -> match rhs {
+            some true -> some true,
+            _ -> nil
+        }
+        some false -> rhs
+    };
+}
+
+impl bool? : Condition {
+    func cond(this) => this ?? false;
+}
+
+impl bool? : Boolean { }

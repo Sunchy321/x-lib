@@ -17,7 +17,7 @@ trait FunctorMut<F is Function> {
 }
 
 impl<T, F> T : FunctorMut<F> if T : Functor<F> {
-    func call(&mut this, #expandParameter(F::Parameter)) -> F::Return {
-        this.Functor::<F>::call(#expandArgument(F::Parameter))
+    func call(&mut this, #expandParameter(F::Parameter, args)) -> F::Return {
+        this.Functor::<F>::call(#expandArgument(F::Parameter, args))
     }
 }
