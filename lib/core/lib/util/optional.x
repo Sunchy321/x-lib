@@ -4,62 +4,59 @@ impl<T> T? {
 
     func asRef(&this) => &this?;
 
-    func map<U>(f: T -> U) => f(this?);
-    func map<U>(f: T -> U, or or: U) => f(this ?? or);
+    func map<U>(this, f: T -> U) => f(this?);
+    func map<U>(this, f: T -> U, or or: U) => f(this ?? or);
 
-    func inspect(f: T -> ()) => f(this?);
+    func inspect(this, f: T -> ()) => f(this?);
 
-    func expect(failMessage: string) => if this == nil then panic(failMessage) else this!;
+    func expect(this, failMessage: string) => if this == nil then panic(failMessage) else this!;
 
-    func and<U>(other: U?) => if this == nil then nil else other;
-    func andThen<U>(f: T -> U?) => if this == nil then nil else f(this!);
+    func and<U>(this, other: U?) => if this == nil then nil else other;
+    func andThen<U>(this, f: T -> U?) => if this == nil then nil else f(this!);
 
-    func or(other: T?) => this ?? other;
-    func orElse(f: () -> T?) => this ?? f();
+    func or(this, other: T?) => this ?? other;
+    func orElse(this, f: () -> T?) => this ?? f();
 
-    func xor(other: T?) => match (this, other) {
+    func xor(this, other: T?) => match (this, other) {
         (some let a, nil) -> some a,
         (nil, some let b) -> some b,
         _ -> nil,
     };
 
-    func someOr<E>(err: E) throw => this ?? throw err;
-    func someOrElse<E>(f: () -> E) throw => this ?? throw f();
+    func someOr<E>(this, err: E) throw => this ?? throw err;
+    func someOrElse<E>(this, f: () -> E) throw => this ?? throw f();
 
-    func filter(p: T -> bool) => pred(this?) ?? false;
+    func filter(this, p: T -> bool) => pred(this?) ?? false;
 
-    func take(this: mut) => match this {
-        some let v -> { this = nil; some v },
-        nil -> nil,
-    }
+    func take(&mut this) => mem::replace(this, nil),
 
-    func zip<U>(other: U?) => match (this, other) {
+    func zip<U>(this, other: U?) => match (this, other) {
         let (some a, some b) -> some (a, b),
         _ -> nil
     };
 
-    func zipWith<U, R>(other: U?, f: (T, U) -> R) => match (this, other) {
+    func zipWith<U, R>(this, other: U?, f: (T, U) -> R) => match (this, other) {
         let (some a, some b) -> some f(a, b),
         _ -> nil,
     };
 }
 
 impl<T, U> (T, U)? {
-    func unzip() => match this {
+    func unzip(this) => match this {
         some let (a, b) -> (some a, some b),
         _ -> (nil, nil),
     };
 }
 
 impl<T, E> (T throw E)? {
-    func transpose() throw => match this {
+    func transpose(this) throw => match this {
         some let v -> try v,
         nil -> nil,
     };
 }
 
 impl<T> T?? {
-    func flatten() => this??;
+    func flatten(this) => this??;
 }
 
 impl<T> T? : Failable {
@@ -67,11 +64,9 @@ impl<T> T? : Failable {
     type Throw = never;
     type Output = self;
 
-    func chain() -> T? {
-        self
-    }
+    func chain(this) => this;
 
-    func unwrap() -> ControlFlow<T, never> {
+    func unwrap(this) -> ControlFlow<T, never> {
         match this {
             some let v -> ControlFlow::Continue(v),
             nil -> panic!("called `unwrap` on a `nil` value"),
@@ -92,5 +87,5 @@ class<T> Iter {
 impl<T> Iter : Iterator {
     type Item = T;
 
-    func next(this: mut) => this.inner.take();
+    func next(&mut this) => this.inner.take();
 }
