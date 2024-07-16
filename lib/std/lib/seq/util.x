@@ -1,4 +1,4 @@
-func<T...> zip(T[]... values) {
+func<T...> zip(T[]... values) throw {
     if values.isEmpty {
         return [];
     }
@@ -7,7 +7,7 @@ func<T...> zip(T[]... values) {
 
     for i in 0 .. values.size {
         if values[i].size != size {
-            throw SequenceError.SizeMismatch;
+            throw SequenceError::SizeMismatch;
         }
     }
 

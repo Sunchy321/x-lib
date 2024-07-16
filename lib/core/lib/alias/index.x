@@ -1,2 +1,0 @@
-trait Array { }
-trait Tuple { }

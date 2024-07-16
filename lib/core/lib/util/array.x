@@ -21,7 +21,7 @@ class ArrayIterator<T> {
 impl<T> ArrayIterator<T> : Iterator {
     type Item = T;
 
-    func next(this: mut) {
+    func next(&mut this) -> Item? {
         if this.index < this.array.size {
             let value = this.array[this.index];
             this.index++;
@@ -33,17 +33,17 @@ impl<T> ArrayIterator<T> : Iterator {
 }
 
 impl<T> T[] {
-    func init<T>(repeating v: T, count n: usize) -> T[] {
+    func init<T>(value v: T, count n: usize) -> T[] {
         let mut array = [];
 
         for let i : 1 .. n {
             array <~ v;
         }
 
-        this = array;
+        array
     }
 
-    func entries() -> (usize, T)[] {
+    func entries(this) -> (usize, T)[] {
         this.map { ($index, $0) }
     }
 }

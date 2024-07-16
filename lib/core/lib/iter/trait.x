@@ -7,32 +7,32 @@ trait Iterable {
 trait Iterator {
     type Item;
 
-    func next(this: mut) -> Item?;
+    func next(&mut this) -> Item?;
 
     let sizeHint: (usize, usize?) => (0, nil);
 
-    func count(this: mut) -> usize => this.fold(0) { $0 + 1 };
+    func count(&mut this) -> usize => this.fold(0) { $0 + 1 };
 
-    func last(this: mut) -> Item? => this.fold(nil) { $1 };
+    func last(&mut this) -> Item? => this.fold(nil) { $1 };
 
-    func advance(this: mut, n: usize) throw(IterError::NotEnoughItem) -> void {
+    func advance(&mut this, n: usize) throw(IterError::NotEnoughItem) -> void {
         for let i : 0..n {
             if this.next() == nil {
-                throw IterError::NotEnoughItem(need: n - i);
+                throw IterError::NotEnoughItem { need: n - i };
             }
         }
     }
 
-    func nth(this: mut, n: usize) -> Item? {
+    func nth(&mut this, n: usize) -> Item? {
         this.advance(n)?;
         this.next()
     }
 
-    func step_by(step: usize) -> StepBy<self> {
-        StepBy(self, step)
+    func step_by(this, step: usize) -> StepBy<self> {
+        StepBy(this, step)
     }
 
-    func fold<R>(this: mut, initial: R, accumulator: (R, Item) -> R) -> R {
+    func fold<R>(&mut this, initial: R, accumulator: (R, Item) mut -> R>) -> R {
         let mut acc = initial;
 
         while let v = self.next(); v != nil {
@@ -44,5 +44,5 @@ trait Iterator {
 }
 
 enum IterError: ErrorCode {
-    NotEnoughItem(need: usize)
+    NotEnoughItem { need: usize }
 }

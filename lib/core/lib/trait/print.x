@@ -1,15 +1,19 @@
 trait Printable {
-    func print() -> string;
+    func print(&this) -> string;
 }
 
 impl string : Printable {
-    func print() => this;
+    func print(&this) => this;
 }
 
 impl char : Printable {
-    func print() => string.from([this]);
+    func print(&this) => string::from([this]);
+}
+
+impl never : Printable {
+    func print(&this) => this;
 }
 
 impl void : Printable {
-    func print() => "()";
+    func print(&this) => "()";
 }

@@ -6,6 +6,6 @@ trait<T> Sequence {
 
     let isEmpty: bool;
 
-    func iter() -> Iterator;
-    func size() -> usize;
+    func iter(&this) -> Iterator;
+    func size(&this) -> usize;
 }

@@ -4,11 +4,11 @@ macro defer {
         class #uniqueId('class);
 
         impl #uniqueId('class) {
-            deinit {
+            func deinit() {
                 #body
             }
         }
 
-        let #uniqueId('instance) = #uniqueId('class) { };
+        let #uniqueId('instance) = #uniqueId('class)();
     }
 }

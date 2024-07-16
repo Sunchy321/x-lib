@@ -68,7 +68,7 @@ impl<T> T? : Failable {
 
     func unwrap(this) -> ControlFlow<T, never> {
         match this {
-            some let v -> ControlFlow::Continue(v),
+            some let v -> .Continue(v),
             nil -> panic!("called `unwrap` on a `nil` value"),
         }
     }
@@ -81,7 +81,7 @@ impl<T> T? : Iterable {
 }
 
 class<T> Iter {
-    let inner: T&?;
+    let inner: T mut&?;
 }
 
 impl<T> Iter : Iterator {

@@ -51,5 +51,5 @@ impl<T...> (...T) : Default if (T is Default & ...) {
 }
 
 impl<T, E> T throw E : Default if T is Default {
-    static let default = do! throw { T::default };
+    static let default = T::default;
 }

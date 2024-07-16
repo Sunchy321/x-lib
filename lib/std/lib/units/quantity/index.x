@@ -10,19 +10,19 @@ impl<U, N> Q<U, N> {
 
     init<N>(value: N) -> self<U, N> { value };
 
-    static func operator+=(this: mut, rhs: impl Into<self>) {
+    static func operator+=(&mut this, rhs: impl Into<self>) {
         this.value += rhs.value;
     }
 
-    static func operator-=(this: mut, rhs: impl Into<self>) {
+    static func operator-=(&mut this, rhs: impl Into<self>) {
         this.value -= rhs.value;
     }
 
-    static func operator*=(this: mut, rhs: impl Into<self>) {
+    static func operator*=(&mut this, rhs: impl Into<self>) {
         this.value *= rhs.value;
     }
 
-    static func operator/=(this: mut, rhs: impl Into<self>) {
+    static func operator/=(&mut this, rhs: impl Into<self>) {
         this.value /= rhs.value;
     }
 }

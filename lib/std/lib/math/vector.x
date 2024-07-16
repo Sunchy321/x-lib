@@ -7,12 +7,12 @@ enum VectorError: ErrorCode {
 class<T is Numeric, N: usize> Vector {
     let array: T[];
 
-    init(array: T[]) -> self<T> {
+    init(array: T[]) throw(VectorError) -> self<T> {
         if array.size != N {
             throw .SizeMismatch;
         }
 
-        self.array = array;
+        self { array };
     }
 }
 
@@ -21,7 +21,7 @@ impl<T, N> Vector<T, N> : Dollar {
 }
 
 impl<T, N> Vector<T, N> : Iterable {
-    type Iter : typeof(this.array)::Iter;
+    type Iter : typeof(self::array)::Iter;
 
     let iter => this.array.iter();
 }

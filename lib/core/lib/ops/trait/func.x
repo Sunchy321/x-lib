@@ -1,7 +1,7 @@
 trait FunctorOnce<F is Function> {
     type Return = F::Return;
 
-    func call(this, #expandParameter(F::Parameter)) -> F::Return;
+    func callOnce(this, #expandParameter(F::Parameter)) -> F::Return;
 }
 
 trait Functor<F is Function> {
@@ -13,7 +13,7 @@ trait Functor<F is Function> {
 trait FunctorMut<F is Function> {
     type Return = F::Return;
 
-    func call(&mut this, #expandParameter(F::Parameter)) -> F::Return;
+    func callMut(&mut this, #expandParameter(F::Parameter)) -> F::Return;
 }
 
 impl<T, F> T : FunctorMut<F> if T : Functor<F> {

@@ -13,45 +13,45 @@ impl Order {
 }
 
 trait PartialEqual<R = self> {
-    func partialEqual(&this, rhs: &R) -> bool;
+    func partialEqual(&this, rhs: R&) -> bool;
 
-    func partialNotEqual(&this, rhs: &R) -> bool {
+    func partialNotEqual(&this, rhs: R&) -> bool {
         !this.partialEqual(rhs)
     }
 }
 
 trait Equal : PartialEqual<self> {
-    func equal(&this, rhs: &self) -> bool {
+    func equal(&this, rhs: self&) -> bool {
         this.partialEqual(rhs)
     }
 
-    func notEqual(&this, rhs: &self) -> bool {
+    func notEqual(&this, rhs: self&) -> bool {
         this.partialNotEqual(rhs)
     }
 }
 
 trait PartialOrdered<R = self> {
-    func partialCompare(&this, rhs: &R) -> Order?;
+    func partialCompare(&this, rhs: R&) -> Order?;
 
-    func lessThan(&this, rhs: &R) -> bool {
+    func lessThan(&this, rhs: R&) -> bool {
         this.partialCompare(rhs) == .Less
     }
 
-    func lessEqual(&this, rhs: &R) -> bool {
+    func lessEqual(&this, rhs: R&) -> bool {
         this.partialCompare(rhs) != .Greater
     }
 
-    func greaterThan(&this, rhs: &R) -> bool {
+    func greaterThan(&this, rhs: R&) -> bool {
         this.partialCompare(rhs) == .Greater
     }
 
-    func greaterEqual(&this, rhs: &R) -> bool {
+    func greaterEqual(&this, rhs: R&) -> bool {
         this.partialCompare(rhs) != .Less
     }
 }
 
 trait Ordered : PartialOrdered<self> {
-    func compare(&this, rhs: &self) -> Order {
+    func compare(&this, rhs: self&) -> Order {
         this.partialCompare(rhs)!
     }
 

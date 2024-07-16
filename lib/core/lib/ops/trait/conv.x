@@ -19,7 +19,7 @@ impl<T> T : From<T> {
 }
 
 impl<T> T : From<never> {
-    func from(_value: never) => unreachable!();
+    func from(_: never) => unreachable!();
 }
 
 trait TryInto<T> {
