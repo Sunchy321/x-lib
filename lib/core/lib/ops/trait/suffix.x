@@ -1,13 +1,25 @@
 trait Index<F is Function> {
     type Output = F::Return;
 
-    func index(&this, #expandParameter(F::Parameter)) -> Output&;
+    func index(&this, #expandParameter(F::Parameter)) -> Output
 }
 
-trait IndexMut<F is Function> {
+trait IndexAssign<F is Function> {
+    type Input = F::Return;
+
+    func indexAssign(&mut this, #expandParameter(F::Parameter), value: Input)
+}
+
+trait IndexRef<F is Function> {
     type Output = F::Return;
 
-    func indexMut(&mut this, #expandParameter(F::Parameter)) -> Output mut&;
+    func indexRef(&this, #expandParameter(F::Parameter)) -> Output&
+}
+
+trait IndexRefMut<F is Function> {
+    type Output = F::Return;
+
+    func indexMut(&mut this, #expandParameter(F::Parameter)) -> Output mut&
 }
 
 enum ControlFlow<T, E> {
