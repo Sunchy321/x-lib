@@ -39,10 +39,10 @@ impl<T> Sequence {
         false
     }
 
-    func none(&this, p: T mut -> bool) => this.allOf { !p($0) };
+    func none(&this, p: T mut -> bool) => this.all { !p($0) };
 
     func filter(&this, p: T mut -> bool) -> self {
-        let result = self()
+        let mut result = self()
 
         for let v : this.iter() {
             if p(v) {

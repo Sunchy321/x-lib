@@ -1,3 +1,4 @@
+@__intrinsic(dict)
 type Dictionary<K: Hashable, V> = __intrinsic;
 
 impl<K, V> Dictionary<K, V> {

@@ -10,12 +10,6 @@ impl Boolean {
     }
 }
 
-impl bool : Condition {
-    func cond(this) => this;
-}
-
-impl bool : Boolean { }
-
 impl bool! : Not {
     type Output = self;
 
