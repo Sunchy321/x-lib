@@ -59,7 +59,7 @@ impl<T, U> (T, U)? {
     };
 }
 
-impl<T, E> (T throw E)? {
+impl<T, E> (T !! E)? {
     func transpose(this) throw => match this {
         some let v -> try v,
         nil -> nil,
