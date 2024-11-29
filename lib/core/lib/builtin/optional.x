@@ -70,17 +70,24 @@ impl<T> T?? {
     func flatten(this) => this??;
 }
 
-impl<T> T? : Failable {
-    type Return = T;
-    type Throw = never;
-    type Output = self;
+impl<T> T? : FromResidual<never?> {
+    func fromResidual(residual: never?) -> self {
+        nil
+    }
+}
 
-    func chain(this) => this;
+impl<T> T? : Try {
+    type Output = T;
+    type Residual = never?;
 
-    func unwrap(this) -> ControlFlow<T, never> {
-        match this {
+    func fromOutput(output: T) -> self {
+        some output
+    }
+
+    func branch(self) -> ControlFlow<self::Residual, self::Output> {
+        match self {
             some let v -> .Continue(v),
-            nil -> panic!("called `unwrap` on a `nil` value"),
+            nil -> .Break(nil),
         }
     }
 }

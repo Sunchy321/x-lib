@@ -22,26 +22,6 @@ trait IndexRefMut<F is Function> {
     func indexMut(&mut this, #expandParameter(F::Parameter)) -> Output mut&
 }
 
-enum ControlFlow<T, E> {
-    Return(T),
-    Throw(E),
-}
-
-trait Failable {
-    type Return;
-    type Throw;
-    type Output : Failable if Output::Return == Return && Output::Throw is Into<Throw>;
-
-    func chain(this) -> Output;
-
-    func unwrap(this) -> ControlFlow<Return, Throw> {
-        match this.chain().unwrap() {
-            .Return(let value) => .Return(value),
-            .Throw(let error) => .Throw(error.into()),
-        }
-    }
-}
-
 trait Predecessor {
     type Output;
     func prev(this) -> Output;

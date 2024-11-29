@@ -1,5 +1,15 @@
+@__intrinsic(result)
+enum Result<T, E> {
+    Okay(T),
+    Error(T),
+}
+
 impl<T, E> T !! E {
-    let isOK => try this catch { false } else { true };
+    let isOK => match this {
+        .Okay(_) => true,
+        .Error(_) => false,
+    };
+
     let isError => !this.isOK;
 
     func ok(this) => this?;
@@ -40,14 +50,28 @@ impl<T, E> (T !! E) !! E {
     func flatten(this) throw => this!!;
 }
 
-impl<T, E> T !! E : Failable {
-    type Return = T;
-    type Throw = E;
-    type Output = T?;
+impl<T, E, F: From<E>> T !! F : FromResidual<never !! E> {
+    func fromResidual(residual: never !! E) -> self {
+        match residual {
+            .Error(e) => .Error(From::from(e)),
+        }
+    }
+}
 
-    func chain(this) => try this catch let e { nil } else let v { some v };
+impl<T, E> T !! E : Try {
+    type Output = T;
+    type Residual = never !! E;
 
-    func unwrap(this) => try this catch let e { .Throw(e) } else let v { .Return(v) };
+    func from_output(output: self::Output) -> self {
+        .Okay(output)
+    }
+
+    func branch(self) -> ControlFlow<self::Residual, self::Output> {
+        match self {
+            .Okay(v) => .Continue(v),
+            .Error(e) => .Break(.Error(e)),
+        }
+    }
 }
 
 impl<T, E> T !! E : Iterable {
