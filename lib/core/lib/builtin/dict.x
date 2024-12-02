@@ -30,7 +30,7 @@ impl<K, V> Dictionary<K, V> : IndexRef<K -> V> {
     }
 }
 
-impl<K, V> Dictionary<K, v> : IndexAssign<K -> V> {
+impl<K, V> Dictionary<K, V> : IndexAssign<K -> V> {
     func indexAssign(&mut this, key: K, value: V) {
         this.update(key: key, value: value)
     }

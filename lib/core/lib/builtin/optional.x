@@ -95,7 +95,7 @@ impl<T> T? : Try {
 impl<T> T? : Iterable {
     type Iter = Iter<T>;
 
-    let iter => Iter { inner: this.asRef() };
+    let iter => Iter(inner: this.asRef());
 }
 
 class<T> Iter {

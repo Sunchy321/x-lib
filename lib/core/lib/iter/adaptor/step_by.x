@@ -8,7 +8,7 @@ impl<I> StepBy<I> {
     internal init(iter: I, step: usize) {
         #assert(step != 0);
 
-        self { iter, step: step - 1, firstTake: true }
+        self(iter: iter, step: step - 1, firstTake: true)
     }
 }
 

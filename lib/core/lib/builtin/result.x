@@ -77,7 +77,7 @@ impl<T, E> T !! E : Try {
 impl<T, E> T !! E : Iterable {
     type Iter = Iter<T, E>;
 
-    let iter => Iter { inner: this.asRef().ok() };
+    let iter => Iter(inner: this.asRef().ok());
 }
 
 class<T, E> Iter {

@@ -18,7 +18,7 @@ trait Iterator {
     func advance(&mut this, n: usize) throw(IterError::NotEnoughItem) -> void {
         for let i : 0..n {
             if this.next() == nil {
-                throw IterError::NotEnoughItem { need: n - i };
+                throw IterError::NotEnoughItem(need: n - i);
             }
         }
     }
@@ -44,5 +44,5 @@ trait Iterator {
 }
 
 enum IterError: ErrorCode {
-    NotEnoughItem { need: usize }
+    NotEnoughItem(need: usize)
 }

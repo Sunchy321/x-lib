@@ -12,7 +12,7 @@ class<T is Numeric, N: usize> Vector {
             throw .SizeMismatch;
         }
 
-        self { array };
+        self(array: array);
     }
 }
 

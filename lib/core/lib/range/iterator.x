@@ -4,7 +4,7 @@ class RangeIterator<T> {
 }
 
 impl<T> RangeIterator<T> {
-    init(start: T, end: T) => self { curr: start, end };
+    init(start: T, end: T) => self(curr: start, end);
 }
 
 impl RangeIterator<T> : Iterator {
@@ -28,7 +28,7 @@ class ClosedRangeIterator<T> {
 }
 
 impl<T> ClosedRangeIterator<T> {
-    init(start: T, end: T) => self { curr: start, end, exhausted: false };
+    init(start: T, end: T) => self(curr: start, end: end, exhausted: false);
 }
 
 impl ClosedRangeIterator<T> : Iterator {
