@@ -2,13 +2,15 @@ enum LiteralError {
     OutOfRange
 }
 
-class IntegetLiteral {
+class IntegerLiteral {
+    func intoInt<const W: uint>(this) throw(LiteralError) -> int<W>;
     func intoInt8(this) throw(LiteralError) -> int<8>;
     func intoInt16(this) throw(LiteralError) -> int<16>;
     func intoInt32(this) throw(LiteralError) -> int<32>;
     func intoInt64(this) throw(LiteralError) -> int<64>;
     func intoInt128(this) throw(LiteralError) -> int<128>;
 
+    func intoUint<const W: uint>(this) throw(LiteralError) -> uint<W>;
     func intoUint8(this) throw(LiteralError) -> uint<8>;
     func intoUint16(this) throw(LiteralError) -> uint<16>;
     func intoUint32(this) throw(LiteralError) -> uint<32>;
@@ -19,6 +21,7 @@ class IntegetLiteral {
 }
 
 class FloatingLiteral {
+    func intoFloat16(this) throw(LiteralError) -> float<16>;
     func intoFloat32(this) throw(LiteralError) -> float<32>;
     func intoFloat64(this) throw(LiteralError) -> float<64>;
     func intoFloat128(this) throw(LiteralError) -> float<128>;
@@ -34,24 +37,24 @@ class StringLiteral {
 }
 
 class CharLiteral {
-    func toChar(this) -> char;
+    func intoChar(this) -> char;
 
     func rawChars(this) -> string;
     func rawInnerChars(this) -> string;
 }
 
-trait IntegerSuffix<const S: Symbol> {
+trait FromIntegerLiteral<const S: Symbol> {
     const func fromLiteral(literal: IntegerLiteral) throw -> self;
 }
 
-trait FloatingSuffix<const S: Symbol> {
+trait FromFloatingLiteral<const S: Symbol> {
     const func fromLiteral(literal: FloatingLiteral) throw -> self;
 }
 
-trait StringSuffix<const S: Symbol> {
+trait FromStringLiteral<const S: Symbol> {
     const func fromLiteral(literal: StringLiteral) throw -> self;
 }
 
-trait CharSuffix<const S: Symbol> {
+trait FromCharLiteral<const S: Symbol> {
     const func fromLiteral(literal: CharLiteral) throw -> self;
 }
