@@ -67,7 +67,7 @@ impl<T, E> (T !! E)? {
 }
 
 impl<T> T?? {
-    func flatten(this) => this??;
+    func flatten(this) => (this?)?;
 }
 
 impl<T> T? : FromResidual<never?> {
@@ -98,7 +98,7 @@ impl<T> T? : Iterable {
     let iter => Iter(inner: this.asRef());
 }
 
-class<T> Iter {
+private class<T> Iter {
     let inner: T mut&?;
 }
 
