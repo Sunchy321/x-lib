@@ -34,10 +34,6 @@ impl<'S> 'S : Default {
     static let default = 'S;
 }
 
-impl<T> T? : Default {
-    static let default = nil;
-}
-
 impl<T> T[] : Default {
     static let default = [];
 }
@@ -46,10 +42,10 @@ impl<T, U> T[U] : Default {
     static let default = [:];
 }
 
-impl<T...> (...T) : Default if (T is Default & ...) {
+impl<T...> (...T) : Default where (T is Default & ...) {
     static let default = (...T::default);
 }
 
-impl<T, E> T !! E : Default if T is Default {
+impl<T, E> T !! E : Default where T is Default {
     static let default = T::default;
 }
