@@ -2,10 +2,15 @@ trait<T> Sequence {
     type Value = T;
     type Iterator : core::Iterator<T>;
 
-    type<U> self;
-
     let isEmpty: bool;
 
     func iter(&this) -> Iterator;
-    func size(&this) -> usize;
+    let size: usize { get };
+}
+
+impl Sequence : RangeBound {
+    type Output = usize;
+
+    func caret(&this) => 0;
+    func dollar(&this) => this.size;
 }

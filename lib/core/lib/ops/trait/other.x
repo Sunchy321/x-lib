@@ -17,7 +17,8 @@ trait Include<V> {
     func include(&this, value: V) -> bool;
 }
 
-trait Dollar {
+trait RangeBound {
     type Output;
+    func caret(&this) -> Output;
     func dollar(&this) -> Output;
 }
