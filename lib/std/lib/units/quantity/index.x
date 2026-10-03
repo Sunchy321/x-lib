@@ -1,4 +1,4 @@
-class Quantity<U is Unit, N is Numeric> {
+class Quantity<U : Unit, N : Numeric> {
     value: N,
 }
 
@@ -27,6 +27,6 @@ impl<U, N> Quantity<U, N> {
     }
 }
 
-impl<U, N is Numeric> N : Into<Quantity<U, N>> {
+impl<U, N : Numeric> N : Into<Quantity<U, N>> {
     func into(this) => Quantity<U>(this);
 }

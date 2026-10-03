@@ -2,9 +2,7 @@ trait Condition {
     func cond(this) -> bool;
 }
 
-trait Boolean : Not + LogicAnd + LogicOr + Condition { }
-
-impl Boolean {
+impl bool {
     func toggle(&mut this) {
         *this = !*this;
     }

@@ -19,17 +19,7 @@ trait IndexRef<F is Function> {
 trait IndexRefMut<F is Function> {
     type Output = F::Return;
 
-    func indexMut(&mut this, #expandParameter(F::Parameter)) -> Output mut&
-}
-
-trait Predecessor {
-    type Output;
-    func prev(this) -> Output;
-}
-
-trait Successor {
-    type Output;
-    func next(this) -> Output;
+    func indexRefMut(&mut this, #expandParameter(F::Parameter)) -> Output mut&
 }
 
 trait Increment {

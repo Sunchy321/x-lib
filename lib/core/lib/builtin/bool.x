@@ -37,5 +37,3 @@ impl bool : LogicOr {
 impl bool : Condition {
     func cond(this) => this;
 }
-
-impl bool : Boolean { }

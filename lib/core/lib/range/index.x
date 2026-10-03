@@ -1,16 +1,16 @@
 import this.iterator;
 
-enum Error {
+enum Error: ErrorCode {
     InvalidBounds
 }
 
-class Range<T is Numeric> {
-    let start: T;
-    let end: T;
+class Range<T : Numeric> {
+    start: T;
+    end: T;
 }
 
 impl<T> Range<T> {
-    init<T>(start: T, end: T) -> self<T> {
+    init<T>(start: T, end: T) throw(Error) -> self<T> {
         if start > end {
             throw .InvalidBounds;
         }
@@ -25,19 +25,19 @@ impl<T> Range<T> : Include<T> {
 }
 
 impl<T> Range<T> : Sequence<T> {
-    type Iter = RangeIterator<T>;
+    type Iterator = RangeIterator<T>;
 
     let iter => RangeIterator(this.start, this.end);
     let size => this.end - this.start;
 }
 
-class ClosedRange<T is Numeric> {
-    let start: T;
-    let end: T;
+class ClosedRange<T : Numeric> {
+    start: T;
+    end: T;
 }
 
 impl<T> ClosedRange<T> {
-    init<T>(start: T, end: T) -> self<T> {
+    init<T>(start: T, end: T) throw(Error) -> self<T> {
         if start > end {
             throw .InvalidBounds;
         }
@@ -52,8 +52,8 @@ impl<T> ClosedRange<T> : Include<T> {
 }
 
 impl<T> ClosedRange<T> : Sequence<T> {
-    type Iter = ClosedRangeIterator<T>;
+    type Iterator = ClosedRangeIterator<T>;
 
     let iter => ClosedRangeIterator(this.start, this.end);
-    let size => (this.end - this.start)+!;
+    let size => (this.end - this.start) + 1;
 }

@@ -2,8 +2,8 @@ trait AddAssign<R = self> {
     func addAssign(&mut this, other: R) -> void;
 }
 
-trait SubstractAssign<R = self> {
-    func substractAssign(&mut this, other: R) -> void;
+trait SubtractAssign<R = self> {
+    func subtractAssign(&mut this, other: R) -> void;
 }
 
 trait MultiplyAssign<R = self> {
@@ -38,8 +38,8 @@ trait BitwiseOrAssign<R = self> {
     func bitwiseOrAssign(&mut this, other: R) -> void;
 }
 
-trait AppendRigth<T> {
-    func appendRigth(&mut this, other: T) -> void;
+trait AppendRight<T> {
+    func appendRight(&mut this, other: T) -> void;
 }
 
 trait AppendLeft<T> {

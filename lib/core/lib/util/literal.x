@@ -1,4 +1,4 @@
-enum LiteralError {
+enum LiteralError: ErrorCode {
     OutOfRange
 }
 

@@ -7,7 +7,7 @@ impl<T> RangeIterator<T> {
     init(start: T, end: T) => self(curr: start, end);
 }
 
-impl RangeIterator<T> : Iterator {
+impl<T> RangeIterator<T> : Iterator {
     type Item = T;
 
     func next(&mut this) -> Item? {
@@ -31,7 +31,7 @@ impl<T> ClosedRangeIterator<T> {
     init(start: T, end: T) => self(curr: start, end: end, exhausted: false);
 }
 
-impl ClosedRangeIterator<T> : Iterator {
+impl<T> ClosedRangeIterator<T> : Iterator {
     type Item = T;
 
     func next(&mut this) -> Item? {

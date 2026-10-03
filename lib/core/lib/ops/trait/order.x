@@ -1,7 +1,7 @@
 enum Order {
     Less,
     Equal,
-    Greater.
+    Greater,
 }
 
 impl Order {
@@ -56,16 +56,16 @@ trait Ordered : PartialOrdered<self> {
     }
 
     func min(lhs: self, rhs: self) -> self {
-        if lhs < rhs then lhs else rhs
+        if lhs < rhs { lhs } else { rhs }
     }
 
     func max(lhs: self, rhs: self) -> self {
-        if lhs > rhs then lhs else rhs
+        if lhs > rhs { lhs } else { rhs }
     }
 
     func clamp(this, min: self, max: self) -> self {
-        if this < min then min
-        else if this > max then max
-        else this
+        if this < min { min }
+        else if this > max { max }
+        else { this }
     }
 }

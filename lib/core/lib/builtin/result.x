@@ -1,7 +1,7 @@
 @__intrinsic(result)
 enum Result<T, E> {
     Okay(T),
-    Error(T),
+    Error(E),
 }
 
 impl<T, E> T !! E {
@@ -12,8 +12,8 @@ impl<T, E> T !! E {
 
     let isError => !this.isOK;
 
-    func ok(this) => this?;
-    func error(this) => try this catch let e { e } else { nil };
+    func takeOK(this) => this?;
+    func takeError(this) => try this catch let e { e } else { nil };
 
     func asRef(&this) => try this catch let ref e { &e } else let ref v { &v };
 
@@ -25,7 +25,7 @@ impl<T, E> T !! E {
     func inspect(this, f: T -> void) => f(this?);
 
     func expect(this, failMessage: string) => try this catch { panic(failMessage) };
-    func expectError(this, failMessage: string) try this catch let e { e } else { panic(failMessage) };
+    func expectError(this, failMessage: string) => try this catch let e { e } else { panic(failMessage) };
 
     func and<U>(this, other: U !! E) throw => try this catch let e { throw e } else { try other };
     func andThen(this, f: T -> U !! E) throw => try f(try this);
@@ -47,7 +47,7 @@ impl<E> never !! E {
 }
 
 impl<T, E> (T !! E) !! E {
-    func flatten(this) throw => this!!;
+    func flatten(this) throw => try (try this);
 }
 
 impl<T, E, F: From<E>> T !! F : FromResidual<never !! E> {
@@ -62,12 +62,12 @@ impl<T, E> T !! E : Try {
     type Output = T;
     type Residual = never !! E;
 
-    func from_output(output: self::Output) -> self {
+    func fromOutput(output: self::Output) -> self {
         .Okay(output)
     }
 
-    func branch(self) -> ControlFlow<self::Residual, self::Output> {
-        match self {
+    func branch(this) -> ControlFlow<self::Residual, self::Output> {
+        match this {
             .Okay(v) => .Continue(v),
             .Error(e) => .Break(.Error(e)),
         }

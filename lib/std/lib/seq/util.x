@@ -1,4 +1,4 @@
-func<T...> zip(T[]... values) throw {
+func zip<T...>(T[]... values) throw {
     if values.isEmpty {
         return [];
     }

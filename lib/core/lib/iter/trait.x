@@ -23,8 +23,8 @@ trait Iterator {
         }
     }
 
-    func nth(&mut this, n: usize) -> Item? {
-        this.advance(n)?;
+    func nth(&mut this, n: usize) throw(IterError::NotEnoughItem) -> Item? {
+        try this.advance(n);
         this.next()
     }
 
@@ -32,11 +32,14 @@ trait Iterator {
         StepBy(this, step)
     }
 
-    func fold<R>(&mut this, initial: R, accumulator: (R, Item) mut -> R>) -> R {
+    func fold<R>(&mut this, initial: R, accumulator: (R, Item) mut -> R) -> R {
         let mut acc = initial;
 
-        while let v = self.next(); v != nil {
-            acc = accumulator(acc, v);
+        while true {
+            match this.next() {
+                some(let v) => { acc = accumulator(acc, v); },
+                nil => { break; },
+            }
         }
 
         acc

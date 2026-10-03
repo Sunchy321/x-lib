@@ -3,9 +3,9 @@ trait Add<R = self> {
     func add(this, other: R) -> Output;
 }
 
-trait Substract<R = self> {
+trait Subtract<R = self> {
     type Output;
-    func substract(this, other: R) -> Output;
+    func subtract(this, other: R) -> Output;
 }
 
 trait Multiply<R = self> {

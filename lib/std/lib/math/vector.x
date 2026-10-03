@@ -4,9 +4,11 @@ enum VectorError: ErrorCode {
     SizeMismatch
 }
 
-class<T is Numeric, N: usize> Vector {
-    let array: T[];
+class Vector<T : Numeric, N : usize> {
+    array: T[];
+}
 
+impl<T, N> Vector<T, N> {
     init(array: T[]) throw(VectorError) -> self<T> {
         if array.size != N {
             throw .SizeMismatch;
@@ -16,8 +18,11 @@ class<T is Numeric, N: usize> Vector {
     }
 }
 
-impl<T, N> Vector<T, N> : Dollar {
-    func dollar() => N;
+impl<T, N> Vector<T, N> : RangeBound {
+    type Output = usize;
+
+    func caret(&this) => 0;
+    func dollar(&this) => N;
 }
 
 impl<T, N> Vector<T, N> : Iterable {

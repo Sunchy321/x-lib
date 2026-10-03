@@ -5,17 +5,14 @@ impl<T> T[] : Sequence {
 
     let isEmpty => this.size == 0;
 
-    func iterator() => ArrayIterator(&this);
+    let iter => ArrayIterator(this);
 }
 
 class ArrayIterator<T> {
-    let index: usize;
-    let array: T[]&;
+    mut index: usize;
+    array: T[];
 
-    init<T>(array: T[]&) -> self<T> {
-        this.array = &array;
-        this.index = 0;
-    }
+    init(array: T[]) => self(index: 0, array);
 }
 
 impl<T> ArrayIterator<T> : Iterator {

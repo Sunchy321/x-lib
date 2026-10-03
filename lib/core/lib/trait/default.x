@@ -30,10 +30,6 @@ impl string : Default {
     static let default = "";
 }
 
-impl<'S> 'S : Default {
-    static let default = 'S;
-}
-
 impl<T> T[] : Default {
     static let default = [];
 }

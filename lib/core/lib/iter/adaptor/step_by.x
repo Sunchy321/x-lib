@@ -1,4 +1,4 @@
-class<I: Iterator> StepBy<I> {
+class StepBy<I : Iterator> {
     iter: I,
     step: usize,
     firstTake: bool,

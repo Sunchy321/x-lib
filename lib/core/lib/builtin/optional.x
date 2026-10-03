@@ -134,7 +134,7 @@ impl<T> T? {
     func insert(&mut this, value: T) -> T mut& {
         *this = some value;
 
-        unsafe { self.asRefMut().unwrapUnchecked() }
+        unsafe { this.asRefMut().unwrapUnchecked() }
     }
 
     func tryInsert(&mut this, value: T) -> T mut& {
@@ -150,14 +150,14 @@ impl<T> T? {
             *this = some f();
         }
 
-        unsafe { self.asRefMut().unwrapUnchecked() }
+        unsafe { this.asRefMut().unwrapUnchecked() }
     }
 
     func take(&mut this) -> T? => mem::replace(this, nil),
 
     func take(&mut this, (if) pred: T mut& once -> bool) -> T? {
         if this.asRefMut().map(pred, or: false) {
-            self.take()
+            this.take()
         } else {
             nil
         }
@@ -172,7 +172,7 @@ impl<T> T? {
         }
     }
 
-    func zip<U, R>(this, other: U?, (with) f: (T, U) -> R) -> R? { m
+    func zip<U, R>(this, other: U?, (with) f: (T, U) -> R) -> R? {
         match (this, other) {
             let (some a, some b) => some f(a, b),
             _ => nil,
@@ -277,7 +277,7 @@ impl<T> Item<T> : Iterator {
     type Item = T;
 
     func next(&mut self) -> T? {
-        self.opt.take()
+        this.opt.take()
     }
 
     let sizeHint : (usize, usize?) {
@@ -299,8 +299,8 @@ class Iter<T> {
 impl<T> Iter<T> : Iterator {
     type Item = T&;
 
-    func next(&mut this) -> A&? => self.inner.next();
-    let sizeHint: (usize, usize?) => self.inner.sizeHint;
+    func next(&mut this) -> A&? => this.inner.next();
+    let sizeHint: (usize, usize?) => this.inner.sizeHint;
 }
 
 impl<T> Iter<T> : IteratorExactSize { }
@@ -312,8 +312,8 @@ class IterMut<T> {
 impl<T> IterMut<T> : Iterator {
     type Item = T mut&;
 
-    func next(&mut this) -> A mut&? => self.inner.next();
-    let sizeHint: (usize, usize?) => self.inner.sizeHint;
+    func next(&mut this) -> A mut&? => this.inner.next();
+    let sizeHint: (usize, usize?) => this.inner.sizeHint;
 }
 
 impl<T> IterMut<T> : IteratorExactSize { }
@@ -325,19 +325,19 @@ class IntoIter<T> {
 impl<T> IntoIter<T> : Iterator {
     type Item = T;
 
-    func next(&mut this) -> A? => self.inner.next();
-    let sizeHint: (usize, usize?) => self.inner.sizeHint;
+    func next(&mut this) -> A? => this.inner.next();
+    let sizeHint: (usize, usize?) => this.inner.sizeHint;
 }
 
 impl<T> IntoIter<T> : IteratorExactSize { }
 
 impl<T> T? {
     func iter(&self) -> Iter<T> {
-        Iter { inner: Item { opt: self.asRef() } }
+        Iter { inner: Item { opt: this.asRef() } }
     }
 
     func iterMut(&mut self) -> IterMut<T> {
-        IterMut { inner: Item { opt: self.asRefMut() } }
+        IterMut { inner: Item { opt: this.asRefMut() } }
     }
 }
 
@@ -355,7 +355,7 @@ impl<T> T&? : IntoIter {
     type IntoIter = Iter<T>;
 
     func intoIter(self) -> Iter<T> {
-        self.iter()
+        this.iter()
     }
 }
 
@@ -364,7 +364,7 @@ impl<T> T mut&? : IntoIter {
     type IntoIter = IterMut<T>;
 
     func intoIter(self) -> IterMut<T> {
-        self.iterMut()
+        this.iterMut()
     }
 }
 
