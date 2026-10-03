@@ -1,3 +1,3 @@
-__intrinsic func panic(message = "") -> never;
+func panic(message: string = "") -> never;
 
-__intrinsic func terminate(message = "") -> never;
+func terminate(message: string = "") -> never;

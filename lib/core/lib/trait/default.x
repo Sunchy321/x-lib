@@ -42,6 +42,6 @@ impl<T...> (...T) : Default where (T is Default & ...) {
     static let default = (...T::default);
 }
 
-impl<T, E> T !! E : Default where T is Default {
+impl<T: Default, E> T !! E : Default {
     static let default = T::default;
 }

@@ -1,6 +1,6 @@
 impl<T> Sequence {
     func map(&this, f: (T, (index): usize) mut -> U) -> self<U> {
-        let mut result = self<U>()
+        let mut result = self<U>();
 
         let mut i = 0;
 
@@ -42,7 +42,7 @@ impl<T> Sequence {
     func none(&this, p: T mut -> bool) => this.all { !p($0) };
 
     func filter(&this, p: T mut -> bool) -> self {
-        let mut result = self()
+        let mut result = self();
 
         for let v : this.iter {
             if p(v) {

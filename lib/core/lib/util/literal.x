@@ -2,7 +2,9 @@ enum LiteralError: ErrorCode {
     OutOfRange
 }
 
-class IntegerLiteral {
+class IntegerLiteral { }
+
+impl IntegerLiteral {
     func intoInt<const W: uint>(this) throw(LiteralError) -> int<W>;
     func intoInt8(this) throw(LiteralError) -> int<8>;
     func intoInt16(this) throw(LiteralError) -> int<16>;
@@ -20,7 +22,9 @@ class IntegerLiteral {
     func rawChars(this) -> string;
 }
 
-class FloatingLiteral {
+class FloatingLiteral { }
+
+impl FloatingLiteral {
     func intoFloat16(this) throw(LiteralError) -> float<16>;
     func intoFloat32(this) throw(LiteralError) -> float<32>;
     func intoFloat64(this) throw(LiteralError) -> float<64>;
@@ -29,14 +33,18 @@ class FloatingLiteral {
     func rawChars(this) -> string;
 }
 
-class StringLiteral {
+class StringLiteral { }
+
+impl StringLiteral {
     func intoString(this) -> string;
 
     func rawChars(this) -> string;
     func rawInnerChars(this) -> string;
 }
 
-class CharLiteral {
+class CharLiteral { }
+
+impl CharLiteral {
     func intoChar(this) -> char;
 
     func rawChars(this) -> string;

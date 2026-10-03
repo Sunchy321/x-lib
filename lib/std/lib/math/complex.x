@@ -1,6 +1,6 @@
 type Complex<T if (T is Numeric) && (T !is Complex<_>)> {
-    real: T;
-    imag: T;
+    let real: T;
+    let imag: T;
 }
 
 impl Complex<float> : FloatingSuffix<'i> {

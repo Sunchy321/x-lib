@@ -1,6 +1,6 @@
 class RangeIterator<T> {
-    mut curr: T;
-    end: T;
+    let mut curr: T;
+    let end: T;
 }
 
 impl<T> RangeIterator<T> {
@@ -22,9 +22,9 @@ impl<T> RangeIterator<T> : Iterator {
 }
 
 class ClosedRangeIterator<T> {
-    mut curr: T;
-    end: T;
-    mut exhausted: bool;
+    let mut curr: T;
+    let end: T;
+    let mut exhausted: bool;
 }
 
 impl<T> ClosedRangeIterator<T> {

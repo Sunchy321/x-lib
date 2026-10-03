@@ -6,10 +6,10 @@ enum Order {
 
 impl Order {
     let reverse: self => match this {
-        .Less -> .Greater;
-        .Equal -> .Equal;
-        .Greater -> .Less;
-    }
+        .Less => .Greater,
+        .Equal => .Equal,
+        .Greater => .Less,
+    };
 }
 
 trait PartialEqual<R = self> {

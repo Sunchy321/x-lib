@@ -1,4 +1,4 @@
-import super.
+import this.super : *;
 
 type ampere = unitBase<currentDimension>;
 

@@ -6,7 +6,7 @@ trait Sequence<T> : RangeBound {
     let isEmpty => this.size == 0;
 
     let iter: Iterator;
-    let size: usize { get };
+    let size: usize { get }
 
     func caret(&this) -> Output => 0;
     func dollar(&this) -> Output => this.size;

@@ -19,20 +19,17 @@ impl<T> T? {
             some let v => f(v),
             nil => false,
         }
-    };
+    }
 
     func isNilOr(f: T once -> bool) -> bool {
         match this {
             some let v => f(v),
             nil => true,
         }
-    };
+    }
 
     func asRef(&this) -> T&? => &this?;
     func asRefMut(&mut this) -> T mut&? => &mut this?;
-
-    func asDeref(&this) -> T::Target&? where T : Deref => this.asRef()?.deref();
-    func asDerefMut(&mut this) -> T::Target mut&? where T : DerefMut => this.asRefMut()?.deref_mut();
 
     func expect(this, failMessage: string) -> T {
         match this {
@@ -50,8 +47,6 @@ impl<T> T? {
 
     func unwrap(this, (or) value: T) -> T => this ?? value;
     func unwrap(this, (orElse) f: () once -> T) -> T => this ?? f();
-
-    func unwrapOrDefault(this) -> T where T : Default => this ?? T::default;
 
     unsafe func unwrapUnchecked(this) -> T {
         match this {
@@ -76,8 +71,8 @@ impl<T> T? {
         }
     }
 
-    func inspect(this, f: T -> ()) -> T? {
-        if let some ref x = this {
+    func inspect(&this, f: T -> ()) -> T? {
+        if let some x = this {
             f(x);
         }
 
@@ -129,7 +124,7 @@ impl<T> T? {
         (some let a, nil) => some a,
         (nil, some let b) => some b,
         _ => nil,
-    }
+    };
 
     func insert(&mut this, value: T) -> T mut& {
         *this = some value;
@@ -141,10 +136,6 @@ impl<T> T? {
         this.tryInsert { value }
     }
 
-    func tryInsertDefault(&mut this) -> T mut& where T : Default {
-        this.tryInsert { T::default }
-    }
-
     func tryInsert(&mut this, (with) f: () once -> T) -> T mut& {
         if this.isNil {
             *this = some f();
@@ -153,7 +144,7 @@ impl<T> T? {
         unsafe { this.asRefMut().unwrapUnchecked() }
     }
 
-    func take(&mut this) -> T? => mem::replace(this, nil),
+    func take(&mut this) -> T? => mem::replace(this, nil);
 
     func take(&mut this, (if) pred: T mut& once -> bool) -> T? {
         if this.asRefMut().map(pred, or: false) {
@@ -165,7 +156,7 @@ impl<T> T? {
 
     func replace(&mut this, value: T) -> T? => mem::replace(this, some value);
 
-    func zip<U>(this, other: U?): (T, U)? {
+    func zip<U>(this, other: U?) -> (T, U)? {
         match (this, other) {
             let (some a, some b) => some (a, b),
             _ => nil
@@ -180,14 +171,36 @@ impl<T> T? {
     }
 }
 
+impl<T: Deref> T? {
+    func asDeref(&this) -> T::Target&? => this.asRef()?.deref();
+}
+
+impl<T: DerefMut> T? {
+    func asDerefMut(&mut this) -> T::Target mut&? => this.asRefMut()?.deref_mut();
+}
+
+impl<T: Default> T? {
+    func unwrapOrDefault(this) -> T => this ?? T::default;
+
+    func tryInsertDefault(&mut this) -> T mut& {
+        this.tryInsert { T::default }
+    }
+}
+
 impl<T> T&? {
     func copyInner(this) -> T? where T : Copy => this.map { *$0 };
-    func cloneInner(this) -> T? where T : Clone => this.map { $0.clone() };
+}
+
+impl<T: Clone> T&? {
+    func cloneInner(this) -> T? => this.map { $0.clone() };
 }
 
 impl<T> T mut&? {
     func copyInner(this) -> T? where T : Copy => this.map { *$0 };
-    func cloneInner(this) -> T? where T : Clone => this.map { $0.clone() };
+}
+
+impl<T: Clone> T mut&? {
+    func cloneInner(this) -> T? => this.map { $0.clone() };
 }
 
 impl<T, U> (T, U)? {
@@ -211,7 +224,7 @@ impl<T> T?? {
     func flatten(this) => (this?)?;
 }
 
-impl<T> T? : Clone where T : Clone {
+impl<T: Clone> T? : Clone {
     func clone(this) -> T? => this.map { $0.clone() };
 }
 
@@ -266,11 +279,11 @@ impl<T> T? : Try {
 }
 
 impl never? : Residual<T> {
-    type TryType = T?
+    type TryType = T?;
 }
 
 private class Item<T> {
-    opt: T?;
+    let opt: T?;
 }
 
 impl<T> Item<T> : Iterator {
@@ -293,7 +306,7 @@ impl<T> Item<T> : IteratorExactSize {
 }
 
 class Iter<T> {
-    inner: Item<T&>;
+    let inner: Item<T&>;
 }
 
 impl<T> Iter<T> : Iterator {
@@ -306,7 +319,7 @@ impl<T> Iter<T> : Iterator {
 impl<T> Iter<T> : IteratorExactSize { }
 
 class IterMut<T> {
-    inner: Item<T mut&>;
+    let inner: Item<T mut&>;
 }
 
 impl<T> IterMut<T> : Iterator {
@@ -319,7 +332,7 @@ impl<T> IterMut<T> : Iterator {
 impl<T> IterMut<T> : IteratorExactSize { }
 
 class IntoIter<T> {
-    inner: Item<T>;
+    let inner: Item<T>;
 }
 
 impl<T> IntoIter<T> : Iterator {
@@ -333,11 +346,11 @@ impl<T> IntoIter<T> : IteratorExactSize { }
 
 impl<T> T? {
     func iter(&this) -> Iter<T> {
-        Iter { inner: Item { opt: this.asRef() } }
+        Iter(inner: Item(opt: this.asRef()))
     }
 
     func iterMut(&mut this) -> IterMut<T> {
-        IterMut { inner: Item { opt: this.asRefMut() } }
+        IterMut(inner: Item(opt: this.asRefMut()))
     }
 }
 
@@ -346,7 +359,7 @@ impl<T> T? : IntoIter {
     type IntoIter = IntoIter<T>;
 
     func intoIter(this) -> IntoIter<T> {
-        IntoIter { inner: Item { opt: this } }
+        IntoIter(inner: Item(opt: this))
     }
 }
 

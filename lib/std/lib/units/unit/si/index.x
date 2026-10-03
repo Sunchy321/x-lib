@@ -1,3 +1,3 @@
 module this.unit.si;
 
-import .ampere;
+import this.ampere;

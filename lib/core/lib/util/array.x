@@ -9,9 +9,11 @@ impl<T> T[] : Sequence {
 }
 
 class ArrayIterator<T> {
-    mut index: usize;
-    array: T[];
+    let mut index: usize;
+    let array: T[];
+}
 
+impl<T> ArrayIterator<T> {
     init(array: T[]) => self(index: 0, array);
 }
 

@@ -5,8 +5,8 @@ enum Error: ErrorCode {
 }
 
 class Range<T : Numeric> {
-    start: T;
-    end: T;
+    let start: T;
+    let end: T;
 }
 
 impl<T> Range<T> {
@@ -32,8 +32,8 @@ impl<T> Range<T> : Sequence<T> {
 }
 
 class ClosedRange<T : Numeric> {
-    start: T;
-    end: T;
+    let start: T;
+    let end: T;
 }
 
 impl<T> ClosedRange<T> {

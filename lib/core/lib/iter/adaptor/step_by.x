@@ -1,7 +1,7 @@
 class StepBy<I : Iterator> {
-    iter: I,
-    step: usize,
-    firstTake: bool,
+    let iter: I,
+    let step: usize,
+    let firstTake: bool,
 }
 
 impl<I> StepBy<I> {

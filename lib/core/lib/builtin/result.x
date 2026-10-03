@@ -80,7 +80,7 @@ impl<T, E> T !! E : Iterable {
     let iter => Iter(inner: this.asRef());
 }
 
-class<T, E> Iter {
+class Iter<T, E> {
     let inner: T&?;
 }
 

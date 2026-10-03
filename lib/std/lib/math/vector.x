@@ -5,7 +5,7 @@ enum VectorError: ErrorCode {
 }
 
 class Vector<T : Numeric, N : usize> {
-    array: T[];
+    let array: T[];
 }
 
 impl<T, N> Vector<T, N> {

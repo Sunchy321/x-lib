@@ -2,26 +2,26 @@
 type Dictionary<K: Hashable, V> = __intrinsic;
 
 impl<K, V> Dictionary<K, V> {
-    init() => [:]
+    init() => [:];
 
-    init((capacity): usize) => __intrinsic
+    init((capacity): usize) => __intrinsic;
 
-    let size: usize => __intrinsic
-    let capacity: usize => __intrinsic
+    let size: usize => __intrinsic;
+    let capacity: usize => __intrinsic;
 
-    let isEmpty: bool => this.size == 0
+    let isEmpty: bool => this.size == 0;
 
-    let keys: K[] { get => __intrinsic }
-    let values: V[] { get => __intrinsic }
+    let keys: K[] { get => __intrinsic; }
+    let values: V[] { get => __intrinsic; }
 
-    func tryGet(key: K) -> V&? => __intrinsic
-    func update((key): K, (value): V) => __intrinsic
+    func tryGet(key: K) -> V&? => __intrinsic;
+    func update((key): K, (value): V) => __intrinsic;
 
-    func reserve(capacity: usize) => __intrinsic
+    func reserve(capacity: usize) => __intrinsic;
 }
 
 impl<K, V> Dictionary<K, V> : Default {
-    static let default => [:]
+    static let default => [:];
 }
 
 impl<K, V> Dictionary<K, V> : IndexRef<K -> V> {
@@ -36,7 +36,7 @@ impl<K, V> Dictionary<K, V> : IndexAssign<K -> V> {
     }
 }
 
-impl<K, V> Dictionary<K, V> : Index<(K, lazy (default): V) -> V {
+impl<K, V> Dictionary<K, V> : Index<(K, lazy (default): V) -> V> {
     func index(&this, key: K, lazy (default): V) -> V {
         this.tryGet(key) ?? default
     }
