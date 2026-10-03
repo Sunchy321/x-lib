@@ -21,7 +21,7 @@ impl<T> Range<T> {
 }
 
 impl<T> Range<T> : Include<T> {
-    func include(&this, value: T) => this.start <= value <= this.end;
+    func include(&this, value: T) => this.start <= value && value <= this.end;
 }
 
 impl<T> Range<T> : Sequence<T> {
@@ -48,7 +48,7 @@ impl<T> ClosedRange<T> {
 }
 
 impl<T> ClosedRange<T> : Include<T> {
-    func include(value: T) => this.start <= value <= this.end;
+    func include(&this, value: T) => this.start <= value && value <= this.end;
 }
 
 impl<T> ClosedRange<T> : Sequence<T> {

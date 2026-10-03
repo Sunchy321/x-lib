@@ -5,7 +5,7 @@ func zip<T...>(T[]... values) throw {
 
     let size = values[0].size;
 
-    for i in 0 .. values.size {
+    for let i : 0 .. values.size {
         if values[i].size != size {
             throw SequenceError::SizeMismatch;
         }

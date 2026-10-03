@@ -1,10 +1,10 @@
 impl<T> Sequence {
     func map(&this, f: (T, (index): usize) mut -> U) -> self<U> {
-        let result = self<U>()
+        let mut result = self<U>()
 
-        let i = 0
+        let mut i = 0;
 
-        for let v : this.iter() {
+        for let v : this.iter {
             result <~ f(v, index: i)
 
             i++
@@ -14,13 +14,13 @@ impl<T> Sequence {
     }
 
     func forEach(&this, f: T mut -> void) -> void {
-        for let v : this.iter() {
+        for let v : this.iter {
             f(v)
         }
     }
 
     func all(&this, p: T mut -> bool) -> bool {
-        for let v : this.iter() {
+        for let v : this.iter {
             if !p(v) {
                 return false
             }
@@ -30,7 +30,7 @@ impl<T> Sequence {
     }
 
     func any(&this, p: T mut -> bool) -> bool {
-        for let v : this.iter() {
+        for let v : this.iter {
             if p(v) {
                 return true;
             }
@@ -44,7 +44,7 @@ impl<T> Sequence {
     func filter(&this, p: T mut -> bool) -> self {
         let mut result = self()
 
-        for let v : this.iter() {
+        for let v : this.iter {
             if p(v) {
                 result <~ v;
             }
@@ -54,7 +54,7 @@ impl<T> Sequence {
     }
 
     func find(&this, p: T mut -> bool) -> T? {
-        for let v : this.iter() {
+        for let v : this.iter {
             if p(v) {
                 return v;
             }
@@ -65,7 +65,7 @@ impl<T> Sequence {
 
     func findIndex(&this, p: T mut -> bool) -> usize? {
         let mut i = 0;
-        for let v : this.iter() {
+        for let v : this.iter {
             if p(v) {
                 return i;
             }

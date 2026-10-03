@@ -15,7 +15,7 @@ impl<T, E> T !! E {
     func takeOK(this) => this?;
     func takeError(this) => try this catch let e { e } else { nil };
 
-    func asRef(&this) => try this catch let ref e { &e } else let ref v { &v };
+    func asRef(&this) -> T&? => __intrinsic;
 
     func unwrapOr(this, default: T) => this? ?? default;
 
@@ -77,7 +77,7 @@ impl<T, E> T !! E : Try {
 impl<T, E> T !! E : Iterable {
     type Iter = Iter<T, E>;
 
-    let iter => Iter(inner: this.asRef().ok());
+    let iter => Iter(inner: this.asRef());
 }
 
 class<T, E> Iter {

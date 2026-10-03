@@ -181,13 +181,13 @@ impl<T> T? {
 }
 
 impl<T> T&? {
-    func copyInner(this) -> T? where T : Copy => this.map(|x| *x);
-    func cloneInner(this) -> T? where T : Clone => this.map(|x| x.clone());
+    func copyInner(this) -> T? where T : Copy => this.map { *$0 };
+    func cloneInner(this) -> T? where T : Clone => this.map { $0.clone() };
 }
 
 impl<T> T mut&? {
-    func copyInner(this) -> T? where T : Copy => this.map(|x| *x);
-    func cloneInner(this) -> T? where T : Clone => this.map(|x| x.clone());
+    func copyInner(this) -> T? where T : Copy => this.map { *$0 };
+    func cloneInner(this) -> T? where T : Clone => this.map { $0.clone() };
 }
 
 impl<T, U> (T, U)? {
@@ -212,7 +212,7 @@ impl<T> T?? {
 }
 
 impl<T> T? : Clone where T : Clone {
-    func clone(this) -> T? => this.map(|x| x.clone());
+    func clone(this) -> T? => this.map { $0.clone() };
 }
 
 impl<T> T? : Default {
@@ -257,8 +257,8 @@ impl<T> T? : Try {
         some output
     }
 
-    func branch(self) -> ControlFlow<self::Residual, self::Output> {
-        match self {
+    func branch(this) -> ControlFlow<self::Residual, self::Output> {
+        match this {
             some let v => .Continue(v),
             nil => .Break(nil),
         }
@@ -276,7 +276,7 @@ private class Item<T> {
 impl<T> Item<T> : Iterator {
     type Item = T;
 
-    func next(&mut self) -> T? {
+    func next(&mut this) -> T? {
         this.opt.take()
     }
 
@@ -299,7 +299,7 @@ class Iter<T> {
 impl<T> Iter<T> : Iterator {
     type Item = T&;
 
-    func next(&mut this) -> A&? => this.inner.next();
+    func next(&mut this) -> T&? => this.inner.next();
     let sizeHint: (usize, usize?) => this.inner.sizeHint;
 }
 
@@ -312,7 +312,7 @@ class IterMut<T> {
 impl<T> IterMut<T> : Iterator {
     type Item = T mut&;
 
-    func next(&mut this) -> A mut&? => this.inner.next();
+    func next(&mut this) -> T mut&? => this.inner.next();
     let sizeHint: (usize, usize?) => this.inner.sizeHint;
 }
 
@@ -325,18 +325,18 @@ class IntoIter<T> {
 impl<T> IntoIter<T> : Iterator {
     type Item = T;
 
-    func next(&mut this) -> A? => this.inner.next();
+    func next(&mut this) -> T? => this.inner.next();
     let sizeHint: (usize, usize?) => this.inner.sizeHint;
 }
 
 impl<T> IntoIter<T> : IteratorExactSize { }
 
 impl<T> T? {
-    func iter(&self) -> Iter<T> {
+    func iter(&this) -> Iter<T> {
         Iter { inner: Item { opt: this.asRef() } }
     }
 
-    func iterMut(&mut self) -> IterMut<T> {
+    func iterMut(&mut this) -> IterMut<T> {
         IterMut { inner: Item { opt: this.asRefMut() } }
     }
 }
@@ -345,8 +345,8 @@ impl<T> T? : IntoIter {
     type Item = T;
     type IntoIter = IntoIter<T>;
 
-    func intoIter(self) -> IntoIter<T> {
-        IntoIter { inner: Item { opt: self } }
+    func intoIter(this) -> IntoIter<T> {
+        IntoIter { inner: Item { opt: this } }
     }
 }
 
@@ -354,7 +354,7 @@ impl<T> T&? : IntoIter {
     type Item = T&;
     type IntoIter = Iter<T>;
 
-    func intoIter(self) -> Iter<T> {
+    func intoIter(this) -> Iter<T> {
         this.iter()
     }
 }
@@ -363,7 +363,7 @@ impl<T> T mut&? : IntoIter {
     type Item = T mut&;
     type IntoIter = IterMut<T>;
 
-    func intoIter(self) -> IterMut<T> {
+    func intoIter(this) -> IterMut<T> {
         this.iterMut()
     }
 }

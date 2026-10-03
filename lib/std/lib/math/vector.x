@@ -28,7 +28,7 @@ impl<T, N> Vector<T, N> : RangeBound {
 impl<T, N> Vector<T, N> : Iterable {
     type Iter : typeof(self::array)::Iter;
 
-    let iter => this.array.iter();
+    let iter => this.array.iter;
 }
 
 impl<T, N> Vector<T, N> : Add {

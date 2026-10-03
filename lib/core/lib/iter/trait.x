@@ -15,7 +15,7 @@ trait Iterator {
 
     func last(&mut this) -> Item? => this.fold(nil) { $1 };
 
-    func advance(&mut this, n: usize) throw(IterError::NotEnoughItem) -> void {
+    func advance(&mut this, n: usize) throw(IterError) -> void {
         for let i : 0..n {
             if this.next() == nil {
                 throw IterError::NotEnoughItem(need: n - i);
@@ -23,7 +23,7 @@ trait Iterator {
         }
     }
 
-    func nth(&mut this, n: usize) throw(IterError::NotEnoughItem) -> Item? {
+    func nth(&mut this, n: usize) throw(IterError) -> Item? {
         try this.advance(n);
         this.next()
     }

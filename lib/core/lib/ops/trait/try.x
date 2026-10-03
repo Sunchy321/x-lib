@@ -13,7 +13,7 @@ trait Try: FromResidual {
 
     func fromOutput(output: Output) -> self;
 
-    func branch(self) -> ControlFlow<self::Residual, self::Output>;
+    func branch(this) -> ControlFlow<self::Residual, self::Output>;
 }
 
 trait Residual<O> {
@@ -36,8 +36,8 @@ impl<B, C> ControlFlow<B, C> : Try {
         .Continue(output)
     }
 
-    func branch(self) -> ControlFlow<self::Residual, self::Output> {
-        match self {
+    func branch(this) -> ControlFlow<self::Residual, self::Output> {
+        match this {
             .Continue(c) => .Continue(c),
             .Break(b) => .Break(.Break(b)),
         }

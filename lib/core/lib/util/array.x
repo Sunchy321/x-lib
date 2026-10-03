@@ -29,12 +29,12 @@ impl<T> ArrayIterator<T> : Iterator {
     }
 }
 
-impl<T> T[] {
+impl<T: Clone> T[] {
     func init<T>(value v: T, count n: usize) -> T[] {
         let mut array = [];
 
         for let i : 1 .. n {
-            array <~ v;
+            array <~ v.clone();
         }
 
         array
